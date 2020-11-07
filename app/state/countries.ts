@@ -1,10 +1,10 @@
 import {
   countryReducer,
   CountryState,
-  doRecruitmentPhaseActionCreator,
-  RecruitmentPhaseData,
   doEconomicPhaseActionCreator,
+  doRecruitmentPhaseActionCreator,
   EconomicPhaseData,
+  RecruitmentPhaseData,
 } from "./country/country.ts";
 
 const doRecruitmentPhasesActionType = "countries/doRecruitmentPhases";
@@ -14,7 +14,7 @@ interface DoRecruitmentPhasesAction {
   payload: RecruitmentPhasesData;
 }
 export const doRecruitmentPhasesActionCreator = (
-  payload: RecruitmentPhasesData
+  payload: RecruitmentPhasesData,
 ): DoRecruitmentPhasesAction => ({
   type: doRecruitmentPhasesActionType,
   payload,
@@ -27,7 +27,7 @@ interface DoEconomicPhasesAction {
   payload: EconomicPhasesData;
 }
 export const doEconomicPhasesActionCreator = (
-  payload: EconomicPhasesData
+  payload: EconomicPhasesData,
 ): DoEconomicPhasesAction => ({
   type: doEconomicPhasesActionType,
   payload,
@@ -37,22 +37,22 @@ export type CountriesState = Map<string, CountryState>;
 
 export const countriesReducer = (
   state: CountriesState,
-  action: DoRecruitmentPhasesAction | DoEconomicPhasesAction
+  action: DoRecruitmentPhasesAction | DoEconomicPhasesAction,
 ): CountriesState => {
   if (action.type === doEconomicPhasesActionType) {
     const nextState: CountriesState = new Map();
     for (const [countryId, countryState] of state) {
       if (!(countryId in action.payload)) {
         throw new TypeError(
-          "Missing country id in economic phases action payload"
+          "Missing country id in economic phases action payload",
         );
       }
       nextState.set(
         countryId,
         countryReducer(
           countryState,
-          doEconomicPhaseActionCreator(action.payload[countryId])
-        )
+          doEconomicPhaseActionCreator(action.payload[countryId]),
+        ),
       );
     }
     return nextState;
@@ -66,8 +66,8 @@ export const countriesReducer = (
           countryId,
           countryReducer(
             countryState,
-            doRecruitmentPhaseActionCreator(action.payload)
-          )
+            doRecruitmentPhaseActionCreator(action.payload),
+          ),
         );
       }
     }

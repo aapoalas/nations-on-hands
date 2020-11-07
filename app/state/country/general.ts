@@ -10,7 +10,7 @@ interface GrantVictoryPointsAction {
 }
 
 export const grantVictoryPointsActionCreator = (
-  victoryPointsGain: number
+  victoryPointsGain: number,
 ): GrantVictoryPointsAction => ({
   type: grantVictoryPointsActionType,
   payload: victoryPointsGain,
@@ -18,7 +18,7 @@ export const grantVictoryPointsActionCreator = (
 
 export const countryGeneralReducer = (
   state: CountryGeneral,
-  action: GrantVictoryPointsAction
+  action: GrantVictoryPointsAction,
 ): CountryGeneral => {
   if (action.type === grantVictoryPointsActionType) {
     return {

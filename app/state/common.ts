@@ -64,20 +64,20 @@ const advanceTurn = (state: CommonState): CommonState => {
      */
     return state.month in EconomicMonth
       ? {
-          ...state,
-          phase: TurnPhase.Economic,
-        }
+        ...state,
+        phase: TurnPhase.Economic,
+      }
       : {
-          ...state,
-          month: (state.month + 1) as Month,
-          phase: TurnPhase.Reinforcement,
-        };
+        ...state,
+        month: (state.month + 1) as Month,
+        phase: TurnPhase.Reinforcement,
+      };
   }
 };
 
 export const commonReducer = (
   state: CommonState,
-  action: AdvanceTurnAction
+  action: AdvanceTurnAction,
 ) => {
   if (action.type === advanceTurnActionType) {
     return advanceTurn(state);

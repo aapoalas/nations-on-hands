@@ -70,13 +70,13 @@ export type Placements = Record<string, Placement[]>;
 
 const automaticRecruitment = (
   state: CountryArmy,
-  date: { month: Month; year: number }
+  date: { month: Month; year: number },
 ): Placements => {
   if (state.recruitment.length === 0) {
     return {};
   }
   const nextRecruitment = state.recruitment.findIndex(
-    (recr) => recr.year > date.year || recr.month > date.month
+    (recr) => recr.year > date.year || recr.month > date.month,
   );
   if (nextRecruitment < 1) {
     return {};
@@ -99,7 +99,7 @@ const automaticRecruitment = (
       ) {
         const addedFactors = Math.min(
           count,
-          corps.size[type] - corps.composition[type].length
+          corps.size[type] - corps.composition[type].length,
         );
         if (!(name in placements)) {
           placements[name] = [];
@@ -122,14 +122,14 @@ const automaticRecruitment = (
 
 const recruitUnits = (
   state: CountryArmy,
-  placements: Placements
+  placements: Placements,
 ): CountryArmy => {
   const recruitment = state.recruitment;
   const { month, year } = recruitment[0];
 
   const newState = {
     recruitment: recruitment.filter(
-      (recr) => recr.year > year || recr.month > month
+      (recr) => recr.year > year || recr.month > month,
     ),
     corps: new Map(state.corps),
   };
@@ -159,7 +159,7 @@ const recruitUnits = (
           name: "Foo",
           type,
           morale,
-        }))
+        })),
       );
     }
   }
@@ -186,7 +186,7 @@ export interface RecruitUnitsAction {
   payload: Recruitment[];
 }
 export const recruitUnitsActionCreator = (
-  payload: Recruitment[]
+  payload: Recruitment[],
 ): RecruitUnitsAction => ({
   type: recruitUnitsActionType,
   payload,
@@ -194,12 +194,12 @@ export const recruitUnitsActionCreator = (
 
 export const countryArmyReducer = (
   state: CountryArmy,
-  action: DoRecruitmentAction | RecruitUnitsAction
+  action: DoRecruitmentAction | RecruitUnitsAction,
 ): CountryArmy => {
   if (action.type === doRecruitmentActionType) {
     const recruitments = automaticRecruitment(
       state,
-      action.payload as { month: Month; year: number }
+      action.payload as { month: Month; year: number },
     );
     if (Object.keys(recruitments).length === 0) {
       return state;
