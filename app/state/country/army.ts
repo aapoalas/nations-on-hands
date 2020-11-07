@@ -1,17 +1,14 @@
 import { Month } from "../common.ts";
 
-const enum CorpsStatus {
+export const enum CorpsStatus {
   "Inactive" = 0,
   "Reserve" = 1,
   "Active" = 2,
 }
 
-interface CorpsSize {
-  guards: number;
-  infantry: number;
-  cavalry: number;
-  artillery: number;
-}
+export type FactorType = "guards" | "infantry" | "cavalry" | "artillery";
+
+export type CorpsSize = Record<FactorType, number>;
 
 interface Factor {
   name: string;
@@ -19,33 +16,26 @@ interface Factor {
   morale: number;
 }
 
-interface CorpsComposition {
-  guards: Factor[];
-  infantry: Factor[];
-  cavalry: Factor[];
-  artillery: Factor[];
-}
+export type CorpsComposition = Record<FactorType, Factor[]>;
 
-interface InactiveCorps {
+export interface InactiveCorps {
   status: CorpsStatus.Inactive;
   size: CorpsSize;
 }
 
-interface ReserveCorps {
+export interface ReserveCorps {
   status: CorpsStatus.Reserve;
   size: CorpsSize;
   composition: CorpsComposition;
 }
 
-interface ActiveCorps {
+export interface ActiveCorps {
   status: CorpsStatus.Active;
   size: CorpsSize;
   composition: CorpsComposition;
 }
 
 type Corps = InactiveCorps | ReserveCorps | ActiveCorps;
-
-export type FactorType = "guards" | "infantry" | "cavalry" | "artillery";
 
 export interface Recruitment {
   month: Month;
@@ -116,11 +106,10 @@ const automaticRecruitment = (
       }
     }
   }
-
   return placements;
 };
 
-const recruitUnits = (
+const doRecruitmentPhase = (
   state: CountryArmy,
   placements: Placements,
 ): CountryArmy => {
@@ -197,14 +186,11 @@ export const countryArmyReducer = (
   action: DoRecruitmentAction | RecruitUnitsAction,
 ): CountryArmy => {
   if (action.type === doRecruitmentActionType) {
-    const recruitments = automaticRecruitment(
-      state,
-      action.payload as { month: Month; year: number },
-    );
-    if (Object.keys(recruitments).length === 0) {
+    const placement = automaticRecruitment(state, action.payload);
+    if (Object.keys(placement).length === 0) {
       return state;
     }
-    return recruitUnits(state, recruitments);
+    return doRecruitmentPhase(state, placement);
   } else if (action.type === recruitUnitsActionType) {
     if (action.payload.length === 0) {
       return state;

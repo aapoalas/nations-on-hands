@@ -1,15 +1,24 @@
-import { EconomicMonth, Month, TurnPhase } from "./state/common.ts";
+import {
+  CommonState,
+  EconomicMonth,
+  Month,
+  TurnPhase,
+} from "./state/common.ts";
 import {
   EconomicPhasesData,
   RecruitmentPhasesData,
 } from "./state/countries.ts";
 import {
+  ActiveCorps,
+  CorpsStatus,
+  FactorType,
+  ReserveCorps,
+} from "./state/country/army.ts";
+import {
   advanceStateActionCreator,
   GameState,
   stateReducer,
 } from "./state/state.ts";
-
-const foo = new Set([1]);
 
 let state: GameState = {
   common: {
@@ -24,12 +33,247 @@ let state: GameState = {
         name: "France",
         identifier: "fr",
         army: {
-          corps: new Map(),
+          corps: new Map<string, ReserveCorps>([
+            [
+              "Guards",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 0,
+                  guards: 5,
+                  infantry: 0,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "I",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 2,
+                  guards: 0,
+                  infantry: 15,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "II",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "II",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "III",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "IV",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "V",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "VI",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "VII",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 0,
+                  guards: 0,
+                  infantry: 10,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "VIII",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 0,
+                  guards: 0,
+                  infantry: 10,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "IX",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 0,
+                  guards: 0,
+                  infantry: 10,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "CI",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 3,
+                  guards: 0,
+                  infantry: 0,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "CII",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 3,
+                  guards: 0,
+                  infantry: 0,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+          ]),
           recruitment: [],
         },
         general: {
           victoryPoints: 0,
-          victoryCondition: 800,
+          victoryCondition: 890,
         },
         finances: {
           currency: "frank",
@@ -44,7 +288,134 @@ let state: GameState = {
         identifier: "pr",
         canStoreManpower: true,
         army: {
-          corps: new Map(),
+          corps: new Map([
+            [
+              "I",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 2,
+                  guards: 0,
+                  infantry: 14,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "II",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "III",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "IV",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "V",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "VI",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+            [
+              "VII",
+              {
+                status: 1,
+                size: {
+                  artillery: 0,
+                  cavalry: 1,
+                  guards: 0,
+                  infantry: 12,
+                },
+                composition: {
+                  artillery: [],
+                  cavalry: [],
+                  guards: [],
+                  infantry: [],
+                },
+              },
+            ],
+          ]),
           recruitment: [],
         },
         general: {
@@ -60,7 +431,22 @@ let state: GameState = {
   ]),
 };
 
-for await (const round of foo) {
+const getRecruitmentMonth = (
+  { month: currentMonth }: CommonState,
+  months: number,
+): Month => ((currentMonth + months) % 11) as Month;
+
+const getRecruitmentYear = (
+  { year: currentYear, month: currentMonth }: CommonState,
+  months: number,
+): number => {
+  if (currentMonth + months > 11) {
+    return currentYear + 1;
+  }
+  return currentYear;
+};
+
+while (true) {
   let payload: undefined | RecruitmentPhasesData | EconomicPhasesData;
   if (state.common.phase === TurnPhase.Reinforcement) {
     payload = {
@@ -78,7 +464,15 @@ for await (const round of foo) {
         manpower: 20,
         recruitment: 20,
         victoryPointGain: 9,
-        recruitments: [],
+        recruitments: [
+          {
+            count: 10,
+            month: getRecruitmentMonth(state.common, 3),
+            year: getRecruitmentYear(state.common, 3),
+            morale: 3.5,
+            type: "infantry",
+          },
+        ],
       },
       pr: {
         expenses: 21,
@@ -86,7 +480,15 @@ for await (const round of foo) {
         manpower: 14,
         recruitment: 15,
         victoryPointGain: 7,
-        recruitments: [],
+        recruitments: [
+          {
+            count: 7,
+            month: getRecruitmentMonth(state.common, 3),
+            year: getRecruitmentYear(state.common, 3),
+            morale: 3,
+            type: "infantry",
+          },
+        ],
       },
     } as EconomicPhasesData;
   }
@@ -98,13 +500,27 @@ for await (const round of foo) {
     }
   }
 
-  for (const country of state.countries.values()) {
-    console.log("\n", country.name);
-    console.table(country.general);
-    console.table(country.finances);
+  if (state.common.phase === TurnPhase.Economic) {
+    for (const country of state.countries.values()) {
+      console.log("\n", country.name);
+      console.table(country.general);
+      console.table(country.finances);
+      for (const key of country.army.corps.keys()) {
+        const value = country.army.corps.get(key)!;
+        if (value.status === 2) {
+          console.log(key);
+          for (const type in value.size) {
+            if (value.size[type as FactorType] > 0) {
+              console.log(
+                type,
+                (value as any).composition[type as FactorType].length,
+              );
+            }
+          }
+        }
+      }
+    }
   }
-
-  foo.add(round + 1);
 
   await new Promise((res) => setTimeout(res));
 }

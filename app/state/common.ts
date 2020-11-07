@@ -7,7 +7,7 @@ export enum EconomicMonth {
   Deceomber = 11,
 }
 
-export const enum TurnPhase {
+export enum TurnPhase {
   // Diplomatic = 0,
   Reinforcement = 1,
   // Naval = 2,

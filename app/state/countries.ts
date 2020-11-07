@@ -57,19 +57,15 @@ export const countriesReducer = (
     }
     return nextState;
   } else if (action.type === doRecruitmentPhasesActionType) {
-    const nextState: CountriesState = new Map();
+    const nextState: CountriesState = new Map(state);
     for (const [countryId, countryState] of state) {
-      if (!(countryId in action.payload)) {
-        nextState.set(countryId, countryState);
-      } else {
-        nextState.set(
-          countryId,
-          countryReducer(
-            countryState,
-            doRecruitmentPhaseActionCreator(action.payload),
-          ),
-        );
-      }
+      nextState.set(
+        countryId,
+        countryReducer(
+          countryState,
+          doRecruitmentPhaseActionCreator(action.payload),
+        ),
+      );
     }
     return nextState;
   }
