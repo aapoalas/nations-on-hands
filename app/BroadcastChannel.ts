@@ -32,7 +32,7 @@ export default class BroadcastChannel extends EventTarget {
       if (listener === this) {
         continue;
       }
-      listener.dispatchEvent(new MessageEvent<T>("message", message));
+      listener.dispatchEvent(new MessageEvent<T>("message", { data: message }));
     }
   }
 

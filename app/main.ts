@@ -10,27 +10,33 @@ import {
   GameState,
   stateReducer,
 } from "./state/state.ts";
-//import { GameController } from "./controllers/GameController.ts";
-//import { PlayerController } from "./controllers/PlayerController.ts";
-//import { JoinMessage } from "./messages/messageTypes.ts";
+import PlayerController from "./controllers/PlayerController.ts";
 import { automaticRecruitment } from "./state/country/army/utils.ts";
 
 if (!("BroadcastChannel" in window)) {
-  (window as any).BroadcastChannel = await import("./BroadcastChannel.ts");
+  (window as any).BroadcastChannel =
+    (await import("./BroadcastChannel.ts")).default;
 }
 
-//const game = new GameController("myGame");
-//const france = new PlayerController("France", "myGame");
-//const prussia = new PlayerController("Prussia", "myGame");
+const gameName = "myGame";
 
-// france.broadcastData({ type: "player/join", sender: france.name, data: null });
-// prussia.broadcastData({ type: "player/join", sender: prussia.name, data: null });
+const playerControllers = [
+  "Austria",
+  "France",
+  "Great Britain",
+  "Prussia",
+  "Russia",
+  "Spain",
+  "Sweden",
+  "Turkey",
+].sort(() => Math.random() - 0.5).map((name) => new PlayerController(name, gameName));
 
 let state: GameState = {
   common: {
     month: 0,
     year: 1789,
     phase: 1, // Reinforcement phase
+    player: null,
   },
   countries: new Map([
     [
@@ -437,7 +443,14 @@ let state: GameState = {
   ]),
 };
 
-//game.broadcastData({ type: "game/initialize", sender: "GameController", data: state });
+playerControllers[Math.trunc(Math.random() * 8)].setupGame(state);
+
+if (playerControllers.length === 8) {
+  for (const player of playerControllers) {
+    player.qq();
+  }
+  Deno.exit(0);
+}
 
 const getRecruitmentMonth = (
   { month: currentMonth }: CommonState,
@@ -466,7 +479,7 @@ while (true) {
         month: state.common.month as Month,
         year: state.common.year,
       }),
-    };
+    } as unknown as EconomicPhasesData;
   } else if (
     state.common.month in EconomicMonth &&
     state.common.phase === TurnPhase.Economic

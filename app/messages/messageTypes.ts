@@ -17,6 +17,11 @@ export interface JoinMessage extends BroadcastMessage<null> {
   type: typeof joinMessageType;
 }
 
+export const greetMessageType = "player/greet";
+export interface GreetMessage extends TargetedMessage<null> {
+  type: typeof greetMessageType;
+}
+
 export const leaveMessageType = "player/leave";
 export interface LeaveMessage extends BroadcastMessage<null> {
   type: typeof leaveMessageType;
@@ -37,6 +42,6 @@ export interface StepForwardMessage extends BroadcastMessage<any> {
   type: typeof stepForwardMessageType;
 }
 
-export type PlayerMessage = JoinMessage | LeaveMessage | PlayerStepData;
-export type ControllerMessage = InitializeMessage | StepForwardMessage;
-export type GameMessage = PlayerMessage | ControllerMessage;
+export type PlayerMessage = JoinMessage | LeaveMessage | PlayerStepData | InitializeMessage | StepForwardMessage;
+export type TargetedPlayerMessage = GreetMessage;
+export type GameMessage = PlayerMessage | TargetedPlayerMessage;

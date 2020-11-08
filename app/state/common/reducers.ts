@@ -1,10 +1,11 @@
-import { EconomicMonth, Month, TurnPhase } from "../commonTypes.ts";
+import { EconomicMonth, Month, PlayerCountryID, TurnPhase } from "../commonTypes.ts";
 import { AdvanceTurnAction, advanceTurnActionType } from "./actionTypes.ts";
 
 export interface CommonState {
   year: number;
   month: Month;
   phase: TurnPhase;
+  player: null | PlayerCountryID;
 }
 
 const advanceTurn = (state: CommonState): CommonState => {
@@ -18,12 +19,14 @@ const advanceTurn = (state: CommonState): CommonState => {
         year: state.year + 1,
         month: 0,
         phase: TurnPhase.Reinforcement,
+        player: null,
       };
     }
     return {
       year: state.year,
       month: (state.month + 1) as Month,
       phase: TurnPhase.Reinforcement,
+      player: null,
     };
   } else if (state.phase === TurnPhase.Reinforcement) {
     /**

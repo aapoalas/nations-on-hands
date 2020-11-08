@@ -1,3 +1,4 @@
+import { PlayerCountryID } from "../commonTypes.ts";
 import {
   doEconomicPhaseActionCreator,
   doRecruitmentPhaseActionCreator,
@@ -10,7 +11,7 @@ import {
   doRecruitmentPhasesActionType,
 } from "./actionTypes.ts";
 
-export type CountriesState = Map<string, CountryState>;
+export type CountriesState = Map<PlayerCountryID, CountryState>;
 
 export const countriesReducer = (
   state: CountriesState,

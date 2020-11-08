@@ -17,7 +17,7 @@ export interface GameState {
 }
 
 const advanceStateActionType = "advanceState";
-interface AdvanceStateAction {
+export interface AdvanceStateAction {
   type: typeof advanceStateActionType;
   payload?: RecruitmentPhasesData | EconomicPhasesData;
 }
