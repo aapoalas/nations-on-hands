@@ -7,7 +7,9 @@ import {
 } from "./actionTypes.ts";
 import { Placements, Recruitment } from "./types.ts";
 
-export const doRecruitmentActionCreator = (payload: Placements): DoRecruitmentAction => ({
+export const doRecruitmentActionCreator = (
+  payload: Placements,
+): DoRecruitmentAction => ({
   type: doRecruitmentActionType,
   payload,
 });

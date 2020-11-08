@@ -7,7 +7,7 @@ import {
 } from "./actionTypes.ts";
 
 export const doRecruitmentPhaseActionCreator = (
-  payload: DoRecruitmentPhaseAction["payload"]
+  payload: DoRecruitmentPhaseAction["payload"],
 ): DoRecruitmentPhaseAction => ({
   type: doRecruitmentPhaseActionType,
   payload,

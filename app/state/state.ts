@@ -22,7 +22,7 @@ interface AdvanceStateAction {
   payload?: RecruitmentPhasesData | EconomicPhasesData;
 }
 export const advanceStateActionCreator = (
-  payload?: RecruitmentPhasesData | EconomicPhasesData
+  payload?: RecruitmentPhasesData | EconomicPhasesData,
 ): AdvanceStateAction => ({
   type: advanceStateActionType,
   payload,
@@ -39,19 +39,19 @@ export const stateReducer = (state: GameState, action: AdvanceStateAction) => {
     }
     countries = countriesReducer(
       countries,
-      doEconomicPhasesActionCreator(action.payload as EconomicPhasesData)
+      doEconomicPhasesActionCreator(action.payload as EconomicPhasesData),
     );
   } else if (state.common.phase === TurnPhase.Reinforcement) {
     countries = countriesReducer(
       countries,
-      doRecruitmentPhasesActionCreator(action.payload as RecruitmentPhasesData)
+      doRecruitmentPhasesActionCreator(action.payload as RecruitmentPhasesData),
     );
   }
   const common = commonReducer(state.common, advanceTurnAction);
   return countries !== state.countries || common !== state.common
     ? {
-        common,
-        countries,
-      }
+      common,
+      countries,
+    }
     : state;
 };

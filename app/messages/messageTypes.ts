@@ -1,40 +1,40 @@
 import { GameState } from "../state/state.ts";
 
 export interface BroadcastMessage<T> {
-    type: string;
-    sender: string;
-    data: T;
+  type: string;
+  sender: string;
+  data: T;
 }
 
 export interface TargetedMessage<T> extends BroadcastMessage<T> {
-    target: string;
+  target: string;
 }
 
 export interface PrivateMessage extends TargetedMessage<ArrayBuffer> {}
 
 export const joinMessageType = "player/join";
 export interface JoinMessage extends BroadcastMessage<null> {
-    type: typeof joinMessageType;
+  type: typeof joinMessageType;
 }
 
 export const leaveMessageType = "player/leave";
 export interface LeaveMessage extends BroadcastMessage<null> {
-    type: typeof leaveMessageType;
+  type: typeof leaveMessageType;
 }
 
 export const playerStepDataType = "player/stepData";
 export interface PlayerStepData extends BroadcastMessage<any> {
-    type: typeof playerStepDataType;
+  type: typeof playerStepDataType;
 }
 
 export const initializeMessageType = "game/initialize";
 export interface InitializeMessage extends BroadcastMessage<GameState> {
-    type: typeof initializeMessageType;
+  type: typeof initializeMessageType;
 }
 
 export const stepForwardMessageType = "game/step";
 export interface StepForwardMessage extends BroadcastMessage<any> {
-    type: typeof stepForwardMessageType;
+  type: typeof stepForwardMessageType;
 }
 
 export type PlayerMessage = JoinMessage | LeaveMessage | PlayerStepData;

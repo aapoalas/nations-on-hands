@@ -441,12 +441,12 @@ let state: GameState = {
 
 const getRecruitmentMonth = (
   { month: currentMonth }: CommonState,
-  months: number
+  months: number,
 ): Month => ((currentMonth + months) % 11) as Month;
 
 const getRecruitmentYear = (
   { year: currentYear, month: currentMonth }: CommonState,
-  months: number
+  months: number,
 ): number => {
   if (currentMonth + months > 11) {
     return currentYear + 1;
@@ -458,14 +458,14 @@ while (true) {
   let payload: undefined | RecruitmentPhasesData | EconomicPhasesData;
   if (state.common.phase === TurnPhase.Reinforcement) {
     payload = {
-        fr: automaticRecruitment(state.countries.get("fr")!.army, {
-            month: state.common.month as Month,
-            year: state.common.year,
-        }),
-        pr: automaticRecruitment(state.countries.get("pr")!.army, {
-            month: state.common.month as Month,
-            year: state.common.year,
-        }),
+      fr: automaticRecruitment(state.countries.get("fr")!.army, {
+        month: state.common.month as Month,
+        year: state.common.year,
+      }),
+      pr: automaticRecruitment(state.countries.get("pr")!.army, {
+        month: state.common.month as Month,
+        year: state.common.year,
+      }),
     };
   } else if (
     state.common.month in EconomicMonth &&
@@ -527,7 +527,7 @@ while (true) {
             if (value.size[type as FactorType] > 0) {
               console.log(
                 type,
-                (value as any).composition[type as FactorType].length
+                (value as any).composition[type as FactorType].length,
               );
             }
           }

@@ -1,4 +1,7 @@
-import { RecruitmentPhaseData, EconomicPhaseData } from "../country/actionTypes.ts";
+import {
+  EconomicPhaseData,
+  RecruitmentPhaseData,
+} from "../country/actionTypes.ts";
 
 export const doRecruitmentPhasesActionType = "countries/doRecruitmentPhases";
 export type RecruitmentPhasesData = Record<string, RecruitmentPhaseData>;

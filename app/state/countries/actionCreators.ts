@@ -1,14 +1,21 @@
-import { RecruitmentPhasesData, DoRecruitmentPhasesAction, doRecruitmentPhasesActionType, EconomicPhasesData, DoEconomicPhasesAction, doEconomicPhasesActionType } from "./actionTypes.ts";
+import {
+  DoEconomicPhasesAction,
+  doEconomicPhasesActionType,
+  DoRecruitmentPhasesAction,
+  doRecruitmentPhasesActionType,
+  EconomicPhasesData,
+  RecruitmentPhasesData,
+} from "./actionTypes.ts";
 
 export const doRecruitmentPhasesActionCreator = (
-  payload: RecruitmentPhasesData
+  payload: RecruitmentPhasesData,
 ): DoRecruitmentPhasesAction => ({
   type: doRecruitmentPhasesActionType,
   payload,
 });
 
 export const doEconomicPhasesActionCreator = (
-  payload: EconomicPhasesData
+  payload: EconomicPhasesData,
 ): DoEconomicPhasesAction => ({
   type: doEconomicPhasesActionType,
   payload,
