@@ -1,33 +1,11 @@
-export type Month = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
-
-export enum EconomicMonth {
-  March = 2,
-  June = 5,
-  September = 8,
-  Deceomber = 11,
-}
-
-export enum TurnPhase {
-  // Diplomatic = 0,
-  Reinforcement = 1,
-  // Naval = 2,
-  Land = 3,
-  Economic = 4,
-}
+import { EconomicMonth, Month, TurnPhase } from "../commonTypes.ts";
+import { AdvanceTurnAction, advanceTurnActionType } from "./actionTypes.ts";
 
 export interface CommonState {
   year: number;
   month: Month;
   phase: TurnPhase;
 }
-
-const advanceTurnActionType = "common/advanceTurn";
-export interface AdvanceTurnAction {
-  type: typeof advanceTurnActionType;
-}
-export const advanceTurnAction: AdvanceTurnAction = Object.freeze({
-  type: advanceTurnActionType,
-});
 
 const advanceTurn = (state: CommonState): CommonState => {
   if (state.month in EconomicMonth && state.phase === TurnPhase.Economic) {

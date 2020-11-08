@@ -1,37 +1,10 @@
+import { doEconomicPhaseActionCreator, doRecruitmentPhaseActionCreator } from "../country/actionCreators.ts";
 import {
   countryReducer,
   CountryState,
-  doEconomicPhaseActionCreator,
-  doRecruitmentPhaseActionCreator,
-  EconomicPhaseData,
-  RecruitmentPhaseData,
-} from "./country/country.ts";
+} from "../country/reducers.ts";
+import { DoRecruitmentPhasesAction, DoEconomicPhasesAction, doEconomicPhasesActionType, doRecruitmentPhasesActionType } from "./actionTypes.ts";
 
-const doRecruitmentPhasesActionType = "countries/doRecruitmentPhases";
-export type RecruitmentPhasesData = RecruitmentPhaseData;
-interface DoRecruitmentPhasesAction {
-  type: typeof doRecruitmentPhasesActionType;
-  payload: RecruitmentPhasesData;
-}
-export const doRecruitmentPhasesActionCreator = (
-  payload: RecruitmentPhasesData,
-): DoRecruitmentPhasesAction => ({
-  type: doRecruitmentPhasesActionType,
-  payload,
-});
-
-const doEconomicPhasesActionType = "countries/doEconomicPhases";
-export type EconomicPhasesData = Record<string, EconomicPhaseData>;
-interface DoEconomicPhasesAction {
-  type: typeof doEconomicPhasesActionType;
-  payload: EconomicPhasesData;
-}
-export const doEconomicPhasesActionCreator = (
-  payload: EconomicPhasesData,
-): DoEconomicPhasesAction => ({
-  type: doEconomicPhasesActionType,
-  payload,
-});
 
 export type CountriesState = Map<string, CountryState>;
 

@@ -1,41 +1,17 @@
+import {
+  SaveMoneyAction,
+  saveMoneyActionType,
+  UseManpowerAction,
+  useManpowerActionType,
+  UseMoneyAction,
+  useMoneyActionType,
+} from "./actionTypes.ts";
+
 export interface CountryFinances {
   currency: string;
   money: number;
   manpower?: number;
 }
-
-const saveMoneyActionType = "country/finances/saveMoney";
-export const useMoneyActionType = "country/finances/useMoney";
-export const useManpowerActionType = "country/finances/useManpower";
-
-export interface UseMoneyAction {
-  type: typeof useMoneyActionType;
-  payload: number;
-}
-export const useMoneyActionCreator = (payload: number): UseMoneyAction => ({
-  type: useMoneyActionType,
-  payload,
-});
-
-interface SaveMoneyAction {
-  type: typeof saveMoneyActionType;
-  payload: number;
-}
-export const saveMoneyActionCreator = (payload: number): SaveMoneyAction => ({
-  type: saveMoneyActionType,
-  payload,
-});
-
-export interface UseManpowerAction {
-  type: typeof useManpowerActionType;
-  payload: number;
-}
-export const useManpowerActionCreator = (
-  payload: number,
-): UseManpowerAction => ({
-  type: useManpowerActionType,
-  payload,
-});
 
 const useMoney = (state: CountryFinances, payload: number): CountryFinances => {
   if (state.money < payload) {

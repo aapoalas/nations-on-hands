@@ -1,23 +1,25 @@
-import { Month } from "../common.ts";
 import {
-  CountryArmy,
-  countryArmyReducer,
-  DoRecruitmentAction,
+  DoEconomicPhaseAction,
+  doEconomicPhaseActionType,
+  DoRecruitmentPhaseAction,
+  doRecruitmentPhaseActionType,
+} from "./actionTypes.ts";
+import {
   doRecruitmentActionCreator,
-  Recruitment,
   recruitUnitsActionCreator,
-} from "./army.ts";
+} from "./army/actionCreators.ts";
+import { countryArmyReducer } from "./army/reducers.ts";
+import { CountryArmy } from "./army/types.ts";
+import {
+  saveMoneyActionCreator,
+  useManpowerActionCreator,
+} from "./finances/actionCreators.ts";
 import {
   CountryFinances,
   countryFinancesReducer,
-  saveMoneyActionCreator,
-  useManpowerActionCreator,
-} from "./finances.ts";
-import {
-  CountryGeneral,
-  countryGeneralReducer,
-  grantVictoryPointsActionCreator,
-} from "./general.ts";
+} from "./finances/reducers.ts";
+import { grantVictoryPointsActionCreator } from "./general/actionCreators.ts";
+import { CountryGeneral, countryGeneralReducer } from "./general/reducers.ts";
 
 export interface CountryState {
   name: string;
@@ -27,42 +29,6 @@ export interface CountryState {
   general: CountryGeneral;
   finances: CountryFinances;
 }
-
-const doRecruitmentPhaseActionType = "country/doRecruitmentPhase";
-export type RecruitmentPhaseData = DoRecruitmentAction["payload"];
-interface DoRecruitmentPhaseAction {
-  type: typeof doRecruitmentPhaseActionType;
-  payload: {
-    month: Month;
-    year: number;
-  };
-}
-export const doRecruitmentPhaseActionCreator = (
-  payload: RecruitmentPhaseData,
-): DoRecruitmentPhaseAction => ({
-  type: doRecruitmentPhaseActionType,
-  payload,
-});
-
-const doEconomicPhaseActionType = "country/doEconomicPhase";
-export interface EconomicPhaseData {
-  income: number;
-  manpower: number;
-  expenses: number;
-  recruitment: number;
-  recruitments: Recruitment[];
-  victoryPointGain: number;
-}
-interface DoEconomicPhaseAction {
-  type: typeof doEconomicPhaseActionType;
-  payload: EconomicPhaseData;
-}
-export const doEconomicPhaseActionCreator = (
-  payload: EconomicPhaseData,
-): DoEconomicPhaseAction => ({
-  type: doEconomicPhaseActionType,
-  payload,
-});
 
 export const countryReducer = (
   state: CountryState,
