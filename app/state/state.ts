@@ -1,18 +1,15 @@
+import { advanceTurnAction } from "./common/actionCreators.ts";
+import { commonReducer, CommonState } from "./common/reducers.ts";
+import { EconomicMonth, TurnPhase } from "./commonTypes.ts";
 import {
-  advanceTurnAction,
-  commonReducer,
-  CommonState,
-  EconomicMonth,
-  TurnPhase,
-} from "./common.ts";
-import {
-  countriesReducer,
-  CountriesState,
   doEconomicPhasesActionCreator,
   doRecruitmentPhasesActionCreator,
+} from "./countries/actionCreators.ts";
+import {
   EconomicPhasesData,
   RecruitmentPhasesData,
-} from "./countries.ts";
+} from "./countries/actionTypes.ts";
+import { countriesReducer, CountriesState } from "./countries/reducers.ts";
 
 export interface GameState {
   common: CommonState;
@@ -25,7 +22,7 @@ interface AdvanceStateAction {
   payload?: RecruitmentPhasesData | EconomicPhasesData;
 }
 export const advanceStateActionCreator = (
-  payload?: RecruitmentPhasesData | EconomicPhasesData,
+  payload?: RecruitmentPhasesData | EconomicPhasesData
 ): AdvanceStateAction => ({
   type: advanceStateActionType,
   payload,
@@ -42,19 +39,19 @@ export const stateReducer = (state: GameState, action: AdvanceStateAction) => {
     }
     countries = countriesReducer(
       countries,
-      doEconomicPhasesActionCreator(action.payload as EconomicPhasesData),
+      doEconomicPhasesActionCreator(action.payload as EconomicPhasesData)
     );
   } else if (state.common.phase === TurnPhase.Reinforcement) {
     countries = countriesReducer(
       countries,
-      doRecruitmentPhasesActionCreator(action.payload as RecruitmentPhasesData),
+      doRecruitmentPhasesActionCreator(action.payload as RecruitmentPhasesData)
     );
   }
   const common = commonReducer(state.common, advanceTurnAction);
   return countries !== state.countries || common !== state.common
     ? {
-      common,
-      countries,
-    }
+        common,
+        countries,
+      }
     : state;
 };

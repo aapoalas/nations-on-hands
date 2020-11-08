@@ -4,8 +4,7 @@ import {
   RecruitUnitsAction,
   recruitUnitsActionType,
 } from "./actionTypes.ts";
-import { ActiveCorps, CorpsStatus, CountryArmy, Placements } from "./types.ts";
-import { automaticRecruitment } from "./utils.ts";
+import { ActiveCorps, CountryArmy, Placements, ReserveCorps } from "./types.ts";
 
 const doRecruitmentPhase = (
   state: CountryArmy,
@@ -27,13 +26,13 @@ const doRecruitmentPhase = (
       throw new TypeError("Invalid corps name, not found in country corps");
     }
     const prevCorps = newCorps.get(corpsName)!;
-    if (prevCorps.status === CorpsStatus.Inactive) {
+    if (prevCorps.status === 0) {
       throw new TypeError("Invalid corps name, corps is inactive");
     }
     const nextCorps: ActiveCorps = {
-      composition: { ...prevCorps.composition },
-      size: prevCorps.size, // Corps size never changes
-      status: CorpsStatus.Active,
+      composition: { ...(prevCorps as ActiveCorps | ReserveCorps).composition },
+      size: (prevCorps as ActiveCorps | ReserveCorps).size, // Corps size never changes
+      status: 2,
     };
     newCorps.set(corpsName, nextCorps);
     for (const placement of placements[corpsName]) {
@@ -59,11 +58,10 @@ export const countryArmyReducer = (
   action: DoRecruitmentAction | RecruitUnitsAction,
 ): CountryArmy => {
   if (action.type === doRecruitmentActionType) {
-    const placement = automaticRecruitment(state, action.payload);
-    if (Object.keys(placement).length === 0) {
+    if (Object.keys(action.payload).length === 0) {
       return state;
     }
-    return doRecruitmentPhase(state, placement);
+    return doRecruitmentPhase(state, action.payload);
   } else if (action.type === recruitUnitsActionType) {
     if (action.payload.length === 0) {
       return state;

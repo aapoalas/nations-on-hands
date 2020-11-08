@@ -1,7 +1,7 @@
 import { RecruitmentPhaseData, EconomicPhaseData } from "../country/actionTypes.ts";
 
 export const doRecruitmentPhasesActionType = "countries/doRecruitmentPhases";
-export type RecruitmentPhasesData = RecruitmentPhaseData;
+export type RecruitmentPhasesData = Record<string, RecruitmentPhaseData>;
 export interface DoRecruitmentPhasesAction {
   type: typeof doRecruitmentPhasesActionType;
   payload: RecruitmentPhasesData;

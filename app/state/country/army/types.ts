@@ -1,6 +1,6 @@
 import { Month } from "../../commonTypes.ts";
 
-export const enum CorpsStatus {
+export enum CorpsStatus {
   "Inactive" = 0,
   "Reserve" = 1,
   "Active" = 2,

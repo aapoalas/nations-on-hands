@@ -1,5 +1,5 @@
 import { Month } from "../../commonTypes.ts";
-import { CorpsStatus, CountryArmy, Placement, Placements } from "./types.ts";
+import { ActiveCorps, CountryArmy, Placement, Placements } from "./types.ts";
 
 export const automaticRecruitment = (
   state: CountryArmy,
@@ -26,13 +26,13 @@ export const automaticRecruitment = (
         break;
       }
       if (
-        (corps.status === CorpsStatus.Active &&
-          corps.size[type] > corps.composition[type].length) ||
-        corps.status === CorpsStatus.Reserve
+        (corps.status === 2 &&
+          corps.size[type] > (corps as ActiveCorps).composition[type].length) ||
+        corps.status === 1
       ) {
         const addedFactors = Math.min(
           count,
-          corps.size[type] - corps.composition[type].length,
+          corps.size[type] - (corps as ActiveCorps).composition[type].length,
         );
         if (!(name in placements)) {
           placements[name] = [];

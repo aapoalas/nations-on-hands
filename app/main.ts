@@ -1,24 +1,30 @@
-import {
-  CommonState,
-  EconomicMonth,
-  Month,
-  TurnPhase,
-} from "./state/common.ts";
+import { CommonState } from "./state/common/reducers.ts";
+import { EconomicMonth, Month, TurnPhase } from "./state/commonTypes.ts";
 import {
   EconomicPhasesData,
   RecruitmentPhasesData,
-} from "./state/countries.ts";
-import {
-  ActiveCorps,
-  CorpsStatus,
-  FactorType,
-  ReserveCorps,
-} from "./state/country/army.ts";
+} from "./state/countries/actionTypes.ts";
+import { FactorType, ReserveCorps } from "./state/country/army/types.ts";
 import {
   advanceStateActionCreator,
   GameState,
   stateReducer,
 } from "./state/state.ts";
+//import { GameController } from "./controllers/GameController.ts";
+//import { PlayerController } from "./controllers/PlayerController.ts";
+//import { JoinMessage } from "./messages/messageTypes.ts";
+import { automaticRecruitment } from "./state/country/army/utils.ts";
+
+if (!("BroadcastChannel" in window)) {
+  (window as any).BroadcastChannel = await import("./BroadcastChannel.ts");
+}
+
+//const game = new GameController("myGame");
+//const france = new PlayerController("France", "myGame");
+//const prussia = new PlayerController("Prussia", "myGame");
+
+// france.broadcastData({ type: "player/join", sender: france.name, data: null });
+// prussia.broadcastData({ type: "player/join", sender: prussia.name, data: null });
 
 let state: GameState = {
   common: {
@@ -431,14 +437,16 @@ let state: GameState = {
   ]),
 };
 
+//game.broadcastData({ type: "game/initialize", sender: "GameController", data: state });
+
 const getRecruitmentMonth = (
   { month: currentMonth }: CommonState,
-  months: number,
+  months: number
 ): Month => ((currentMonth + months) % 11) as Month;
 
 const getRecruitmentYear = (
   { year: currentYear, month: currentMonth }: CommonState,
-  months: number,
+  months: number
 ): number => {
   if (currentMonth + months > 11) {
     return currentYear + 1;
@@ -450,9 +458,15 @@ while (true) {
   let payload: undefined | RecruitmentPhasesData | EconomicPhasesData;
   if (state.common.phase === TurnPhase.Reinforcement) {
     payload = {
-      month: state.common.month as Month,
-      year: state.common.year,
-    } as RecruitmentPhasesData;
+        fr: automaticRecruitment(state.countries.get("fr")!.army, {
+            month: state.common.month as Month,
+            year: state.common.year,
+        }),
+        pr: automaticRecruitment(state.countries.get("pr")!.army, {
+            month: state.common.month as Month,
+            year: state.common.year,
+        }),
+    };
   } else if (
     state.common.month in EconomicMonth &&
     state.common.phase === TurnPhase.Economic
@@ -513,7 +527,7 @@ while (true) {
             if (value.size[type as FactorType] > 0) {
               console.log(
                 type,
-                (value as any).composition[type as FactorType].length,
+                (value as any).composition[type as FactorType].length
               );
             }
           }

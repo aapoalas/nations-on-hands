@@ -1,15 +1,10 @@
-import { Month } from "../commonTypes.ts";
-import { DoRecruitmentAction } from "./army/actionTypes.ts";
-import { Recruitment } from "./army/types.ts";
+import { Placements, Recruitment } from "./army/types.ts";
 
 export const doRecruitmentPhaseActionType = "country/doRecruitmentPhase";
-export type RecruitmentPhaseData = DoRecruitmentAction["payload"];
+export type RecruitmentPhaseData = Placements;
 export interface DoRecruitmentPhaseAction {
   type: typeof doRecruitmentPhaseActionType;
-  payload: {
-    month: Month;
-    year: number;
-  };
+  payload: Placements;
 }
 
 export const doEconomicPhaseActionType = "country/doEconomicPhase";

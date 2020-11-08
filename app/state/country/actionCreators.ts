@@ -4,11 +4,10 @@ import {
   DoRecruitmentPhaseAction,
   doRecruitmentPhaseActionType,
   EconomicPhaseData,
-  RecruitmentPhaseData,
 } from "./actionTypes.ts";
 
 export const doRecruitmentPhaseActionCreator = (
-  payload: RecruitmentPhaseData,
+  payload: DoRecruitmentPhaseAction["payload"]
 ): DoRecruitmentPhaseAction => ({
   type: doRecruitmentPhaseActionType,
   payload,

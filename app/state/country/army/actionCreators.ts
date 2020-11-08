@@ -5,12 +5,9 @@ import {
   RecruitUnitsAction,
   recruitUnitsActionType,
 } from "./actionTypes.ts";
-import { Recruitment } from "./types.ts";
+import { Placements, Recruitment } from "./types.ts";
 
-export const doRecruitmentActionCreator = (payload: {
-  month: Month;
-  year: number;
-}): DoRecruitmentAction => ({
+export const doRecruitmentActionCreator = (payload: Placements): DoRecruitmentAction => ({
   type: doRecruitmentActionType,
   payload,
 });
