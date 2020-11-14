@@ -13,7 +13,7 @@ const startDate: {
 export const getInitialState = (): GameState => ({
   common: {
     ...startDate,
-    phase: 1, // Reinforcement phase
+    phase: -1, // Setup phase
     player: null,
   },
   configuration: {
@@ -251,7 +251,7 @@ export const getInitialState = (): GameState => ({
         },
         finances: {
           currency: "krone",
-          money: 15,
+          money: 25,
         },
       },
     ],
@@ -508,7 +508,7 @@ export const getInitialState = (): GameState => ({
         },
         finances: {
           currency: "frank",
-          money: 30,
+          money: 15,
         },
       },
     ],
@@ -789,7 +789,7 @@ export const getInitialState = (): GameState => ({
         },
         finances: {
           currency: "deutchmark",
-          money: 15,
+          money: 20,
         },
       },
     ],
@@ -1119,7 +1119,7 @@ export const getInitialState = (): GameState => ({
         },
         finances: {
           currency: "ruble",
-          money: 15,
+          money: 40,
         },
       },
     ],
@@ -1267,7 +1267,7 @@ export const getInitialState = (): GameState => ({
         },
         finances: {
           currency: "dublon",
-          money: 15,
+          money: 40,
         },
       },
     ],
@@ -1675,7 +1675,7 @@ export const getInitialState = (): GameState => ({
         },
         finances: {
           currency: "lira",
-          money: 15,
+          money: 25,
         },
       },
     ],
