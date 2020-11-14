@@ -8,6 +8,7 @@ export enum EconomicMonth {
 }
 
 export enum TurnPhase {
+  Setup = -1,
   // Diplomatic = 0,
   Reinforcement = 1,
   // Naval = 2,
