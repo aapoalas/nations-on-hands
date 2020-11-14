@@ -38,15 +38,21 @@ class PlayerController {
     this.broadcastData({ type: "player/join", data: null, sender: this.name });
   }
 
-  setupGame(state: GameState) {
+  async setupGame(scenarioName: string) {
     if (this.state) {
       throw new TypeError("Game state already setup");
     }
-    this.state = state;
+    try {
+      const scenarioModule = await import(`../setups/${scenarioName}.ts`);
+      const state = scenarioModule.getInitialState() as GameState;
+      this.state = state;
+    } catch (err) {
+      throw new Error("Failed to load scenario module");
+    }
     this.broadcastData({
       type: "game/initialize",
       sender: this.name,
-      data: state,
+      data: this.state,
     });
   }
 
