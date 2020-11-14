@@ -6,7 +6,7 @@ export enum CorpsStatus {
   "Active" = 2,
 }
 
-export type FactorType = "guards" | "infantry" | "cavalry" | "artillery";
+export type FactorType = "guard" | "infantry" | "cavalry" | "artillery";
 
 export type CorpsSize = Record<FactorType, number>;
 

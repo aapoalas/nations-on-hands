@@ -5,14 +5,15 @@ export interface PlayOrder {
   landReinf: PlayerCountryID[];
   naval: PlayerCountryID[];
   navalReinf: PlayerCountryID[];
+  setup: PlayerCountryID[];
 }
 
 export interface ConfigurationState {
   playOrder: PlayOrder;
-  countrySpecificConfiguration: Record<
+  countrySpecificConfiguration?: Partial<Record<
     PlayerCountryID,
     Partial<ConfigurationState>
-  >;
+  >>;
 }
 
 export const configurationReducer = (state: ConfigurationState): ConfigurationState => {
