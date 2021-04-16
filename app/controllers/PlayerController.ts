@@ -125,7 +125,10 @@ class PlayerController {
     }
     this.turnData.set(player, turnData);
     if (this.turnData.size === this.players.size) {
-      this.state = stateReducer(this.state, { type: "advanceState" , payload: Object.fromEntries(this.turnData) as any });
+      this.state = stateReducer(this.state, {
+        type: "advanceState",
+        payload: Object.fromEntries(this.turnData) as any,
+      });
     }
   }
 
@@ -133,7 +136,9 @@ class PlayerController {
     if (this.state === undefined) {
       throw new Error("State undefined at start of turn");
     }
-    await new Promise(res => setTimeout(res, Math.round(Math.random() * 1000)));
+    await new Promise((res) =>
+      setTimeout(res, Math.round(Math.random() * 1000))
+    );
     const nextPlayer = getNextPlayer(this.state);
     if (nextPlayer === null || nextPlayer === this.name) {
       this.broadcastData({

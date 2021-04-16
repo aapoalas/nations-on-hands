@@ -38,7 +38,8 @@ export interface InitializeMessage extends BroadcastMessage<GameState> {
 }
 
 export const stepForwardMessageType = "game/step";
-export interface StepForwardMessage extends BroadcastMessage<AdvanceStateAction> {
+export interface StepForwardMessage
+  extends BroadcastMessage<AdvanceStateAction> {
   type: typeof stepForwardMessageType;
 }
 

@@ -1,9 +1,7 @@
 import { Month } from "../state/commonTypes.ts";
 import { GameState } from "../state/state.ts";
 import { createFactors, createReinforcement } from "./utils.ts";
-import {
-  EIGHT_PLAYER_CAMPAIGN_ORDER
-} from "./baseGameOrder.ts";
+import { EIGHT_PLAYER_CAMPAIGN_ORDER } from "./baseGameOrder.ts";
 
 const startDate: {
   month: Month;
@@ -23,7 +21,7 @@ export const getInitialState = (): GameState => ({
   configuration: {
     common: {
       phaseData: EIGHT_PLAYER_CAMPAIGN_ORDER,
-    }
+    },
   },
   countries: new Map([
     [

@@ -53,7 +53,10 @@ export const stateReducer = (state: GameState, action: AdvanceStateAction) => {
       doRecruitmentPhasesActionCreator(action.payload as RecruitmentPhasesData),
     );
   }
-  const common = commonReducer(state.common, advanceGameActionCreator(state.configuration.common));
+  const common = commonReducer(
+    state.common,
+    advanceGameActionCreator(state.configuration.common),
+  );
   const configuration = configurationReducer(state.configuration);
   return countries !== state.countries || common !== state.common ||
       configuration !== state.configuration

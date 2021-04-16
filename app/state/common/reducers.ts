@@ -7,19 +7,16 @@ import {
   PoliticalSteps,
   ReinforcementSteps,
   SequentialPhaseData,
-  SetupSteps
+  SetupSteps,
 } from "../commonTypes.ts";
-import {
-  advanceGameActionType,
-  AdvanceGameAction,
-} from "./actionTypes.ts"
+import { AdvanceGameAction, advanceGameActionType } from "./actionTypes.ts";
 import {
   getNextDate,
   getPlayerByIndex,
   getPlayOrder,
   isLastPhaseOfTurn,
   isLastPlayerOfStep,
-  isLastStepOfPhase
+  isLastStepOfPhase,
 } from "./utils.ts";
 
 export type CommonState =
@@ -182,9 +179,17 @@ export const commonReducer = (
     const commonConfiguration: CommonConfiguration = action.payload;
     const currentPhaseData = commonConfiguration.phaseData[state.phase];
     if (currentPhaseData.type === "joint") {
-      return reduceJointPhaseCommonState(state, currentPhaseData, commonConfiguration);
+      return reduceJointPhaseCommonState(
+        state,
+        currentPhaseData,
+        commonConfiguration,
+      );
     } else if (currentPhaseData.type === "sequential") {
-      return reduceSequentialPhaseCommonState(state, currentPhaseData, commonConfiguration);
+      return reduceSequentialPhaseCommonState(
+        state,
+        currentPhaseData,
+        commonConfiguration,
+      );
     }
     throw new TypeError("Invalid phase data, type must be joint or sequential");
   }
