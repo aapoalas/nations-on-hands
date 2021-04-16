@@ -46,7 +46,7 @@ class PlayerController {
       const scenarioModule = await import(`../setups/${scenarioName}.ts`);
       const state = scenarioModule.getInitialState() as GameState;
       this.state = state;
-    } catch (err) {
+    } catch (_err) {
       throw new Error("Failed to load scenario module");
     }
     this.broadcastData({
@@ -118,6 +118,11 @@ class PlayerController {
       throw new Error("Game state not initialized, cannot run state");
     }
     this.state = stateReducer(this.state, action);
+  }
+
+  private async prepareForTurn() {
+    await new Promise(res => setTimeout(res, Math.round(Math.random() * 1000)));
+    
   }
 }
 

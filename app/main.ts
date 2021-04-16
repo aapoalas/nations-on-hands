@@ -37,12 +37,12 @@ await playerControllers[Math.trunc(Math.random() * 8)].setupGame(
   "TheRevolutionCampaign",
 );
 
-if (playerControllers.length === 8) {
-  for (const player of playerControllers) {
-    player.qq();
-  }
-  Deno.exit(0);
-}
+// if (playerControllers.length === 8) {
+//   for (const player of playerControllers) {
+//     player.qq();
+//   }
+//   Deno.exit(0);
+// }
 
 const getRecruitmentMonth = (
   { month: currentMonth }: CommonState,

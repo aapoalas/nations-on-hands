@@ -1,4 +1,4 @@
-import { GameState } from "../state/state.ts";
+import { AdvanceStateAction, GameState } from "../state/state.ts";
 
 export interface BroadcastMessage<T> {
   type: string;
@@ -38,7 +38,7 @@ export interface InitializeMessage extends BroadcastMessage<GameState> {
 }
 
 export const stepForwardMessageType = "game/step";
-export interface StepForwardMessage extends BroadcastMessage<void> {
+export interface StepForwardMessage extends BroadcastMessage<AdvanceStateAction> {
   type: typeof stepForwardMessageType;
 }
 
