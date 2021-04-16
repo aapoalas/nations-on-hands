@@ -1,6 +1,9 @@
 import { Month } from "../state/commonTypes.ts";
 import { GameState } from "../state/state.ts";
 import { createFactors, createReinforcement } from "./utils.ts";
+import {
+  EIGHT_PLAYER_CAMPAIGN_ORDER
+} from "./baseGameOrder.ts";
 
 const startDate: {
   month: Month;
@@ -14,16 +17,13 @@ export const getInitialState = (): GameState => ({
   common: {
     ...startDate,
     phase: -1, // Setup phase
+    step: 0,
     player: null,
   },
   configuration: {
-    playOrder: {
-      land: ["fr", "ru", "tur", "aus", "pr", "swe", "gb", "spa"],
-      landReinf: ["spa", "gb", "swe", "pr", "aus", "tur", "ru", "fr"],
-      naval: ["gb", "ru", "tur", "aus", "pr", "swe", "fr", "spa"],
-      navalReinf: ["spa", "fr", "swe", "pr", "aus", "tur", "ru", "gb"],
-      setup: ["fr", "ru", "tur", "aus", "pr", "gb", "spa", "swe"],
-    },
+    common: {
+      phaseData: EIGHT_PLAYER_CAMPAIGN_ORDER,
+    }
   },
   countries: new Map([
     [

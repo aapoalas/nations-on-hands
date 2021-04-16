@@ -9,6 +9,8 @@ import {
   stepForwardMessageType,
   TargetedPlayerMessage,
 } from "../messages/messageTypes.ts";
+import { PlayerCountryID } from "../state/commonTypes.ts";
+import { getNextPlayer } from "../state/selectors.ts";
 import { AdvanceStateAction, GameState, stateReducer } from "../state/state.ts";
 
 class PlayerController {
@@ -17,6 +19,7 @@ class PlayerController {
   private players: Set<string>;
   private channel: BroadcastChannel;
   private state: undefined | GameState = undefined;
+  private turnData = new Map<PlayerCountryID, any>();
 
   constructor(playerName: string, gameName: string) {
     if (typeof playerName !== "string" || !playerName) {
@@ -46,8 +49,8 @@ class PlayerController {
       const scenarioModule = await import(`../setups/${scenarioName}.ts`);
       const state = scenarioModule.getInitialState() as GameState;
       this.state = state;
-    } catch (_err) {
-      throw new Error("Failed to load scenario module");
+    } catch (err) {
+      throw new Error("Failed to load scenario module: " + err.message);
     }
     this.broadcastData({
       type: "game/initialize",
@@ -102,8 +105,9 @@ class PlayerController {
       }
       console.log("Player", this.name, "accepted game setup from", data.sender);
       this.state = data.data;
+      this.prepareForTurn();
     } else if (data.type === stepForwardMessageType) {
-      this.runState(data.data);
+      this.tryAdvanceTurn(data.sender as PlayerCountryID, data.data);
     }
   }
 
@@ -113,16 +117,32 @@ class PlayerController {
     }
   }
 
-  private runState(action: AdvanceStateAction) {
+  private tryAdvanceTurn(player: PlayerCountryID, turnData: any) {
     if (this.state === undefined) {
       throw new Error("Game state not initialized, cannot run state");
+    } else if (this.turnData.has(player)) {
+      throw new Error("Invalid turn data, player has already acted");
     }
-    this.state = stateReducer(this.state, action);
+    this.turnData.set(player, turnData);
+    if (this.turnData.size === this.players.size) {
+      this.state = stateReducer(this.state, { type: "advanceState" , payload: Object.fromEntries(this.turnData) as any });
+    }
   }
 
   private async prepareForTurn() {
+    if (this.state === undefined) {
+      throw new Error("State undefined at start of turn");
+    }
     await new Promise(res => setTimeout(res, Math.round(Math.random() * 1000)));
-    
+    const nextPlayer = getNextPlayer(this.state);
+    if (nextPlayer === null || nextPlayer === this.name) {
+      this.broadcastData({
+        data: {} as any,
+        sender: this.name,
+        type: "game/step",
+      });
+      this.tryAdvanceTurn(this.name as PlayerCountryID, {});
+    }
   }
 }
 

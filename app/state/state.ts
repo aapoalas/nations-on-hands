@@ -1,4 +1,4 @@
-import { advanceTurnAction } from "./common/actionCreators.ts";
+import { advanceGameActionCreator } from "./common/actionCreators.ts";
 import { commonReducer, CommonState } from "./common/reducers.ts";
 import { EconomicMonth, TurnPhase } from "./commonTypes.ts";
 import {
@@ -36,6 +36,7 @@ export const advanceStateActionCreator = (
 export const stateReducer = (state: GameState, action: AdvanceStateAction) => {
   let countries = state.countries;
   if (
+    false &&
     state.common.month in EconomicMonth &&
     state.common.phase === TurnPhase.Economic
   ) {
@@ -46,13 +47,13 @@ export const stateReducer = (state: GameState, action: AdvanceStateAction) => {
       countries,
       doEconomicPhasesActionCreator(action.payload as EconomicPhasesData),
     );
-  } else if (state.common.phase === TurnPhase.Reinforcement) {
+  } else if (false && state.common.phase === TurnPhase.Reinforcement) {
     countries = countriesReducer(
       countries,
       doRecruitmentPhasesActionCreator(action.payload as RecruitmentPhasesData),
     );
   }
-  const common = commonReducer(state.common, advanceTurnAction);
+  const common = commonReducer(state.common, advanceGameActionCreator(state.configuration.common));
   const configuration = configurationReducer(state.configuration);
   return countries !== state.countries || common !== state.common ||
       configuration !== state.configuration

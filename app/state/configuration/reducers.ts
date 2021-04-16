@@ -1,4 +1,4 @@
-import { PlayerCountryID } from "../commonTypes.ts";
+import { PlayerCountryID, PhaseData } from "../commonTypes.ts";
 
 export interface PlayOrder {
   land: PlayerCountryID[];
@@ -9,13 +9,13 @@ export interface PlayOrder {
 }
 
 export interface ConfigurationState {
-  playOrder: PlayOrder;
-  countrySpecificConfiguration?: Partial<
-    Record<
-      PlayerCountryID,
-      Partial<ConfigurationState>
-    >
-  >;
+  common: {
+    phaseData: PhaseData[];
+  }
+  countrySpecificConfiguration?: Partial<Record<
+    PlayerCountryID,
+    Partial<Omit<ConfigurationState, "countrySpecificConfiguration">>
+  >>;
 }
 
 export const configurationReducer = (
