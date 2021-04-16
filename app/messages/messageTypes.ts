@@ -10,7 +10,7 @@ export interface TargetedMessage<T> extends BroadcastMessage<T> {
   target: string;
 }
 
-export interface PrivateMessage extends TargetedMessage<ArrayBuffer> {}
+export type PrivateMessage = TargetedMessage<ArrayBuffer>;
 
 export const joinMessageType = "player/join";
 export interface JoinMessage extends BroadcastMessage<null> {
@@ -28,7 +28,7 @@ export interface LeaveMessage extends BroadcastMessage<null> {
 }
 
 export const playerStepDataType = "player/stepData";
-export interface PlayerStepData extends BroadcastMessage<any> {
+export interface PlayerStepData extends BroadcastMessage<void> {
   type: typeof playerStepDataType;
 }
 
@@ -38,7 +38,7 @@ export interface InitializeMessage extends BroadcastMessage<GameState> {
 }
 
 export const stepForwardMessageType = "game/step";
-export interface StepForwardMessage extends BroadcastMessage<any> {
+export interface StepForwardMessage extends BroadcastMessage<void> {
   type: typeof stepForwardMessageType;
 }
 
