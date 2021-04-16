@@ -43,7 +43,7 @@ export const createFactors = (
 export const createReinforcement = (
   count: number,
   type: FactorType,
-  { month, year }: { month: Month, year: number },
+  { month, year }: { month: Month; year: number },
   morale?: 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5,
 ): Recruitment => ({
   count,

@@ -1,7 +1,10 @@
 import { advanceTurnAction } from "./common/actionCreators.ts";
 import { commonReducer, CommonState } from "./common/reducers.ts";
 import { EconomicMonth, TurnPhase } from "./commonTypes.ts";
-import { configurationReducer, ConfigurationState } from "./configuration/reducers.ts";
+import {
+  configurationReducer,
+  ConfigurationState,
+} from "./configuration/reducers.ts";
 import {
   doEconomicPhasesActionCreator,
   doRecruitmentPhasesActionCreator,
@@ -51,7 +54,8 @@ export const stateReducer = (state: GameState, action: AdvanceStateAction) => {
   }
   const common = commonReducer(state.common, advanceTurnAction);
   const configuration = configurationReducer(state.configuration);
-  return countries !== state.countries || common !== state.common || configuration !== state.configuration
+  return countries !== state.countries || common !== state.common ||
+      configuration !== state.configuration
     ? {
       common,
       countries,

@@ -16,4 +16,12 @@ export enum TurnPhase {
   Economic = 4,
 }
 
-export type PlayerCountryID = "fr" | "aus" | "pr" | "ru" | "swe" | "gb" | "spa" | "tur";
+export type PlayerCountryID =
+  | "fr"
+  | "aus"
+  | "pr"
+  | "ru"
+  | "swe"
+  | "gb"
+  | "spa"
+  | "tur";

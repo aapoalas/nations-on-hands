@@ -42,6 +42,11 @@ export interface StepForwardMessage extends BroadcastMessage<void> {
   type: typeof stepForwardMessageType;
 }
 
-export type PlayerMessage = JoinMessage | LeaveMessage | PlayerStepData | InitializeMessage | StepForwardMessage;
+export type PlayerMessage =
+  | JoinMessage
+  | LeaveMessage
+  | PlayerStepData
+  | InitializeMessage
+  | StepForwardMessage;
 export type TargetedPlayerMessage = GreetMessage;
 export type GameMessage = PlayerMessage | TargetedPlayerMessage;

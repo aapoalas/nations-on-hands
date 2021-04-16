@@ -1,4 +1,9 @@
-import { EconomicMonth, Month, PlayerCountryID, TurnPhase } from "../commonTypes.ts";
+import {
+  EconomicMonth,
+  Month,
+  PlayerCountryID,
+  TurnPhase,
+} from "../commonTypes.ts";
 import { AdvanceTurnAction, advanceTurnActionType } from "./actionTypes.ts";
 
 export interface CommonState {

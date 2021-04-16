@@ -10,12 +10,16 @@ export interface PlayOrder {
 
 export interface ConfigurationState {
   playOrder: PlayOrder;
-  countrySpecificConfiguration?: Partial<Record<
-    PlayerCountryID,
-    Partial<ConfigurationState>
-  >>;
+  countrySpecificConfiguration?: Partial<
+    Record<
+      PlayerCountryID,
+      Partial<ConfigurationState>
+    >
+  >;
 }
 
-export const configurationReducer = (state: ConfigurationState): ConfigurationState => {
-    return state;
+export const configurationReducer = (
+  state: ConfigurationState,
+): ConfigurationState => {
+  return state;
 };
