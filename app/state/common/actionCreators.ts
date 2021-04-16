@@ -1,5 +1,9 @@
-import { AdvanceTurnAction, advanceTurnActionType } from "./actionTypes.ts";
+import { PhaseData } from "../commonTypes.ts";
+import { AdvanceGameAction, advanceGameActionType } from "./actionTypes.ts";
 
-export const advanceTurnAction: AdvanceTurnAction = Object.freeze({
-  type: advanceTurnActionType,
+export const advanceGameActionCreator = (
+  configurationCommonSlice: { phaseData: PhaseData[] },
+): AdvanceGameAction => ({
+  type: advanceGameActionType,
+  payload: configurationCommonSlice,
 });

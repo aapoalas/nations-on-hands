@@ -47,7 +47,7 @@ class PlayerController {
       const state = scenarioModule.getInitialState() as GameState;
       this.state = state;
     } catch (err) {
-      throw new Error("Failed to load scenario module");
+      throw new Error("Failed to load scenario module: " + err.message);
     }
     this.broadcastData({
       type: "game/initialize",
