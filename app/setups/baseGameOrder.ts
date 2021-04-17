@@ -37,8 +37,8 @@ const SETUP_PHASE_DATA: JointPhaseData = {
       name: "Land Setup",
       type: PARALLEL_STEP_TYPE,
       order: ["tur", "ru", "aus", "pr", "swe", "fr", "spa", "gb"],
-    }
-  ]
+    },
+  ],
 };
 
 const POLITICAL_PHASE_DATA: JointPhaseData = {

@@ -179,7 +179,9 @@ export const commonReducer = (
     const commonConfiguration: CommonConfiguration = action.payload;
     const currentPhaseData = commonConfiguration.phaseData[state.phase];
     if (currentPhaseData === undefined) {
-      throw new Error(JSON.stringify(commonConfiguration.phaseData) + " " + state.phase);
+      throw new Error(
+        JSON.stringify(commonConfiguration.phaseData) + " " + state.phase,
+      );
     }
     if (currentPhaseData.type === "joint") {
       return reduceJointPhaseCommonState(

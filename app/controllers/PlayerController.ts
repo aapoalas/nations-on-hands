@@ -18,7 +18,9 @@ interface PlayerActionPromise extends Promise<AdvanceStateAction> {
   registerPlayerAction: (player: PlayerCountryID, data: any) => void;
 }
 
-const newPlayerActionPromise = (players: PlayerCountryID[]): PlayerActionPromise => {
+const newPlayerActionPromise = (
+  players: PlayerCountryID[],
+): PlayerActionPromise => {
   const waitingList = new Set(players);
   const dataMap = new Map<PlayerCountryID, any>();
   let resolve;
@@ -37,9 +39,9 @@ const newPlayerActionPromise = (players: PlayerCountryID[]): PlayerActionPromise
     if (dataMap.size === waitingList.size) {
       resolve(Object.fromEntries(dataMap));
     }
-  }
+  };
   return promise;
-}
+};
 
 class PlayerController {
   name: string;
@@ -52,7 +54,6 @@ class PlayerController {
   private hash = "";
   private waitingList = new Set<string>();
   private actionsPromise?: newPlayerActionPromise;
-
 
   constructor(playerName: string, gameName: string) {
     if (typeof playerName !== "string" || !playerName) {
@@ -91,7 +92,7 @@ class PlayerController {
       data: this.state,
     });
   }
-  
+
   private updateGameState(state: GameState) {
     this.state = state;
     this.turnData.clear();
@@ -102,11 +103,11 @@ class PlayerController {
         this.waitingList.add(player);
       }
     }
-      this.broadcastData({
-        sender: this.name,
-        data: this.hash,
-        type: "game/hash"
-      });
+    this.broadcastData({
+      sender: this.name,
+      data: this.hash,
+      type: "game/hash",
+    });
   }
 
   private broadcastData(data: PlayerMessage) {
@@ -162,14 +163,17 @@ class PlayerController {
       this.savePlayerTurnAction(data.sender as PlayerCountryID, data.data);
     } else if (data.type === "game/hash") {
       if (String(data.data) !== String(this.hash)) {
-        throw new Error("Invalid state hash: " + String(data.data) + " vs " + String(this.stateHash.digest()));
+        throw new Error(
+          "Invalid state hash: " + String(data.data) + " vs " +
+            String(this.stateHash.digest()),
+        );
       }
       if (this.waitingList.has(data.sender)) {
         this.waitingList.delete(data.sender);
         if (this.waitingList.size === 0) {
           setTimeout(() => {
             this.prepareForTurn();
-          })
+          });
         }
       }
     }
@@ -202,7 +206,9 @@ class PlayerController {
       throw new Error("State undefined at start of turn");
     }
     const nextPlayer = getNextPlayer(this.state);
-    const ownTurnData = nextPlayer === null || nextPlayer === this.name ? {} : null;
+    const ownTurnData = nextPlayer === null || nextPlayer === this.name
+      ? {}
+      : null;
     this.broadcastData({
       data: ownTurnData as any,
       sender: this.name,
