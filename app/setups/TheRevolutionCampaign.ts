@@ -16,7 +16,7 @@ export const getInitialState = (): GameState => ({
     ...startDate,
     phase: -1, // Setup phase
     step: 0,
-    player: null,
+    player: "swe",
   },
   configuration: {
     common: {

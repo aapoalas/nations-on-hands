@@ -43,11 +43,17 @@ export interface StepForwardMessage
   type: typeof stepForwardMessageType;
 }
 
+export const gameStateHashMessageType = "game/hash";
+export interface GameStateHashMessage extends BroadcastMessage<string> {
+  type: typeof gameStateHashMessageType;
+}
+
 export type PlayerMessage =
   | JoinMessage
   | LeaveMessage
   | PlayerStepData
   | InitializeMessage
-  | StepForwardMessage;
+  | StepForwardMessage
+  | GameStateHashMessage;
 export type TargetedPlayerMessage = GreetMessage;
 export type GameMessage = PlayerMessage | TargetedPlayerMessage;

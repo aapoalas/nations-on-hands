@@ -16,9 +16,30 @@ const setup: PlayerCountryID[] = [
   "swe",
 ];
 
-const JOINT_STEP_TYPE: "joint" = "joint";
-const PARALLEL_STEP_TYPE: "parallel" = "parallel";
-const SEQUENTIAL_STEP_TYPE: "sequential" = "sequential";
+const JOINT_STEP_TYPE = "joint" as const;
+const PARALLEL_STEP_TYPE = "parallel" as const;
+const SEQUENTIAL_STEP_TYPE = "sequential" as const;
+
+const SETUP_PHASE_DATA: JointPhaseData = {
+  id: -1,
+  name: "Setup Phase",
+  type: JOINT_STEP_TYPE,
+  order: null,
+  steps: [
+    {
+      id: 0,
+      name: "Naval Setup",
+      type: PARALLEL_STEP_TYPE,
+      order: ["swe", "ru", "tur", "aus", "pr", "fr", "spa", "gb"],
+    },
+    {
+      id: 1,
+      name: "Land Setup",
+      type: PARALLEL_STEP_TYPE,
+      order: ["tur", "ru", "aus", "pr", "swe", "fr", "spa", "gb"],
+    }
+  ]
+};
 
 const POLITICAL_PHASE_DATA: JointPhaseData = {
   id: 0,
@@ -228,3 +249,5 @@ export const EIGHT_PLAYER_CAMPAIGN_ORDER = [
   LAND_PHASE_DATA,
   ECONOMIC_PHASE_DATA,
 ];
+
+EIGHT_PLAYER_CAMPAIGN_ORDER[-1] = SETUP_PHASE_DATA;

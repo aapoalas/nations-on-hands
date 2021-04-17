@@ -1,3 +1,4 @@
+import { createHash } from "https://deno.land/std@0.93.0/hash/mod.ts";
 import BroadcastChannel from "../BroadcastChannel.ts";
 import {
   GameMessage,
@@ -13,6 +14,33 @@ import { PlayerCountryID } from "../state/commonTypes.ts";
 import { getNextPlayer } from "../state/selectors.ts";
 import { AdvanceStateAction, GameState, stateReducer } from "../state/state.ts";
 
+interface PlayerActionPromise extends Promise<AdvanceStateAction> {
+  registerPlayerAction: (player: PlayerCountryID, data: any) => void;
+}
+
+const newPlayerActionPromise = (players: PlayerCountryID[]): PlayerActionPromise => {
+  const waitingList = new Set(players);
+  const dataMap = new Map<PlayerCountryID, any>();
+  let resolve;
+  let reject;
+  const promise: PlayerActionPromise = new Promise((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
+  const registerPlayerAction = (player: PlayerCountryID, data: any) => {
+    if (!waitingList.has(player)) {
+      reject(new Error("Invalid player ID"));
+    } else if (dataMap.has(player)) {
+      reject(new Error("Player action already registered"));
+    }
+    dataMap.set(player, data);
+    if (dataMap.size === waitingList.size) {
+      resolve(Object.fromEntries(dataMap));
+    }
+  }
+  return promise;
+}
+
 class PlayerController {
   name: string;
   gameName: string;
@@ -20,6 +48,11 @@ class PlayerController {
   private channel: BroadcastChannel;
   private state: undefined | GameState = undefined;
   private turnData = new Map<PlayerCountryID, any>();
+  private stateHash = createHash("md5");
+  private hash = "";
+  private waitingList = new Set<string>();
+  private actionsPromise?: newPlayerActionPromise;
+
 
   constructor(playerName: string, gameName: string) {
     if (typeof playerName !== "string" || !playerName) {
@@ -34,7 +67,7 @@ class PlayerController {
     }
     this.name = playerName;
     this.gameName = gameName;
-    this.players = new Set();
+    this.players = new Set([playerName]);
     this.channel = new (window as any).BroadcastChannel(this.gameName);
     this.channel.onmessage = this.handleMessage.bind(this);
 
@@ -57,6 +90,23 @@ class PlayerController {
       sender: this.name,
       data: this.state,
     });
+  }
+  
+  private updateGameState(state: GameState) {
+    this.state = state;
+    this.turnData.clear();
+    this.stateHash.update(JSON.stringify(this.state));
+    this.hash = this.stateHash.toString("hex");
+    for (const player of this.players) {
+      if (player !== this.name) {
+        this.waitingList.add(player);
+      }
+    }
+      this.broadcastData({
+        sender: this.name,
+        data: this.hash,
+        type: "game/hash"
+      });
   }
 
   private broadcastData(data: PlayerMessage) {
@@ -105,9 +155,23 @@ class PlayerController {
       }
       console.log("Player", this.name, "accepted game setup from", data.sender);
       this.state = data.data;
-      this.prepareForTurn();
+      if (this.players.size === 8) {
+        this.prepareForTurn();
+      }
     } else if (data.type === stepForwardMessageType) {
-      this.tryAdvanceTurn(data.sender as PlayerCountryID, data.data);
+      this.savePlayerTurnAction(data.sender as PlayerCountryID, data.data);
+    } else if (data.type === "game/hash") {
+      if (String(data.data) !== String(this.hash)) {
+        throw new Error("Invalid state hash: " + String(data.data) + " vs " + String(this.stateHash.digest()));
+      }
+      if (this.waitingList.has(data.sender)) {
+        this.waitingList.delete(data.sender);
+        if (this.waitingList.size === 0) {
+          setTimeout(() => {
+            this.prepareForTurn();
+          })
+        }
+      }
     }
   }
 
@@ -117,7 +181,7 @@ class PlayerController {
     }
   }
 
-  private tryAdvanceTurn(player: PlayerCountryID, turnData: any) {
+  private savePlayerTurnAction(player: PlayerCountryID, turnData: any) {
     if (this.state === undefined) {
       throw new Error("Game state not initialized, cannot run state");
     } else if (this.turnData.has(player)) {
@@ -125,29 +189,26 @@ class PlayerController {
     }
     this.turnData.set(player, turnData);
     if (this.turnData.size === this.players.size) {
-      this.state = stateReducer(this.state, {
+      const state = stateReducer(this.state, {
         type: "advanceState",
         payload: Object.fromEntries(this.turnData) as any,
       });
+      this.updateGameState(state);
     }
   }
 
-  private async prepareForTurn() {
+  private prepareForTurn() {
     if (this.state === undefined) {
       throw new Error("State undefined at start of turn");
     }
-    await new Promise((res) =>
-      setTimeout(res, Math.round(Math.random() * 1000))
-    );
     const nextPlayer = getNextPlayer(this.state);
-    if (nextPlayer === null || nextPlayer === this.name) {
-      this.broadcastData({
-        data: {} as any,
-        sender: this.name,
-        type: "game/step",
-      });
-      this.tryAdvanceTurn(this.name as PlayerCountryID, {});
-    }
+    const ownTurnData = nextPlayer === null || nextPlayer === this.name ? {} : null;
+    this.broadcastData({
+      data: ownTurnData as any,
+      sender: this.name,
+      type: "game/step",
+    });
+    this.savePlayerTurnAction(this.name as PlayerCountryID, ownTurnData as any);
   }
 }
 

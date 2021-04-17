@@ -51,7 +51,7 @@ export const isLastPlayerOfStep = (
     typeof state.player !== "string" || !currentPlayOrder.includes(state.player)
   ) {
     throw new TypeError(
-      "Invalid common state, player is null or not one of player countries",
+      "Invalid common state, player is null or not one of player countries: " + state.player,
     );
   }
   return currentPlayOrder[currentPlayOrder.length - 1] === state.player;

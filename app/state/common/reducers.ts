@@ -178,6 +178,9 @@ export const commonReducer = (
   if (action.type === advanceGameActionType) {
     const commonConfiguration: CommonConfiguration = action.payload;
     const currentPhaseData = commonConfiguration.phaseData[state.phase];
+    if (currentPhaseData === undefined) {
+      throw new Error(JSON.stringify(commonConfiguration.phaseData) + " " + state.phase);
+    }
     if (currentPhaseData.type === "joint") {
       return reduceJointPhaseCommonState(
         state,
