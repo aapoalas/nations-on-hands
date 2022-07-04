@@ -333,7 +333,10 @@ const OPERATIONAL_POSSIBILITIES_CHART: Record<
     D: ["1-2", "3-1", "3-1"],
   },
   // Probe-Withdraw is an automatic withdraw, this will never be accessed.
-  "Probe-Withdraw": null as unknown as OperationalPossibilityEntry,
+  "Probe-Withdraw": {
+    A: [null, null, null],
+    D: [null, null, null],
+  } as unknown as OperationalPossibilityEntry,
   "Probe-Defend": {
     A: ["1-1", "3-1", "3-3"],
     D: ["3-2", "3-1", "2-1"],
@@ -499,11 +502,9 @@ export const enum TerrainModifier {
 type ChitsToOperationalPossibilityEntryType<
   A extends AttackerOperationName,
   D extends DefenderOperationName,
-> = A extends "Probe"
-  ? D extends "Withdraw" ? null : OperationalPossibilityEntry
-  : A extends "Outflank"
-    ? D extends "Outflank" | "Cordon" ? OperationalPossibilityEntry
-    : OutflankOperationalPossibilityEntry
+> = A extends "Outflank"
+  ? D extends "Outflank" | "Cordon" ? OperationalPossibilityEntry
+  : OutflankOperationalPossibilityEntry
   : D extends "Outflank" ? A extends "Outflank" ? OperationalPossibilityEntry
     : OutflankOperationalPossibilityEntry
   : OperationalPossibilityEntry;
@@ -517,10 +518,6 @@ export const getOperationalPossibilityEntry = (
   typeof attackerChit,
   typeof defenderChit
 > => {
-  if (defenderChit === "Withdraw" && attackerChit === "Probe") {
-    return null;
-  }
-
   const modifiedDefenderChit: ExtendedDefenderOperationName =
     attackingAcrossRiver && defenderChit === "Cordon"
       ? "Cordon(River)"
@@ -528,6 +525,10 @@ export const getOperationalPossibilityEntry = (
 
   const baseEntry =
     OPERATIONAL_POSSIBILITIES_CHART[`${attackerChit}-${modifiedDefenderChit}`];
+
+  if (defenderChit === "Withdraw" && attackerChit === "Probe") {
+    return baseEntry;
+  }
 
   if (terrain === TerrainModifier.Forest) {
     return MODIFIER_FUNCTIONS.Forest(baseEntry);

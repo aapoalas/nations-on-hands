@@ -69,7 +69,7 @@ export const chooseCombatTerrain = (): TerrainModifier => {
   }
 };
 
-export const prepareBattle = (): null | CombatState => {
+export const prepareBattle = (): CombatState => {
   const attackerFactors = Math.round(Math.random() * 30) + 10;
   const defenderFactors = Math.round(Math.random() * 30) + 10;
   const terrain = chooseCombatTerrain();
@@ -82,10 +82,6 @@ export const prepareBattle = (): null | CombatState => {
     attackingOverRiver,
     terrain,
   );
-
-  if (operationalPossibilityEntry === null) {
-    return null;
-  }
 
   return {
     attackerChit,
@@ -261,34 +257,65 @@ const checkBattleStatus = (state: CombatState, round: 0 | 1 | 2): boolean => {
   return true;
 };
 
+const reportCombatResult = (
+  startState: CombatState,
+  endState: CombatState,
+  _round: 0 | 1 | 2,
+) => {
+  console.log("\n=== COMBAT RESULT ===");
+  const attackerCasualties = startState.attackerFactors -
+    endState.attackerFactors;
+  const defenderCasualties = startState.defenderFactors -
+    endState.defenderFactors;
+  console.log(
+    " * Attacker lost",
+    attackerCasualties,
+    "with",
+    endState.attackerFactors,
+    "remaining",
+  );
+  console.log(
+    " * Defender lost",
+    defenderCasualties,
+    "with",
+    endState.defenderFactors,
+    "remaining",
+  );
+};
+
 export const runBattle = () => {
-  let state = prepareBattle();
-  console.log("===== BATTLE STARTED =====");
-  if (state) {
-    if (state.terrain) {
-      const terrainName =
-        ["None", "Forest", "Mountain", "Desert", "Marsh"][state.terrain];
-      console.log("Fighting in", terrainName);
-    }
-    console.log("Attacker brings", state.attackerFactors, "infantry");
-    console.log("Defender brings", state.defenderFactors, "infantry");
-  }
-  console.log("Attacker chooses", state?.attackerChit ?? "Probe");
-  console.log("Defender chooses", state?.defenderChit ?? "Withdraw");
-  if (state === null) {
-    console.log("Defender withdraws from battle.");
+  const startState = prepareBattle();
+  let state: null | CombatState = startState;
+  if (
+    state.attackerChit === "Probe" &&
+    state.defenderChit === "Withdraw"
+  ) {
+    console.log("Defender withdraws from attacker's probe.");
     return;
   }
+
+  console.log("===== BATTLE STARTED =====");
+  if (state.terrain) {
+    const terrainName =
+      ["None", "Forest", "Mountain", "Desert", "Marsh"][state.terrain];
+    console.log("Fighting in", terrainName);
+  }
+  console.log("Attacker brings", state.attackerFactors, "infantry");
+  console.log("Defender brings", state.defenderFactors, "infantry");
+  console.log("Attacker chooses", state.attackerChit);
+  console.log("Defender chooses", state.defenderChit);
+
   for (const round of ([0, 1, 2] as const)) {
     state = runRound(state, round);
     if (state === null) {
       console.log("Defender withdraws from battle.");
       return;
     } else if (!checkBattleStatus(state, round)) {
+      reportCombatResult(startState, state, round);
       return;
     }
   }
-  console.log("Battle ends for the day.");
+  reportCombatResult(startState, state, 2);
 };
 
 runBattle();
