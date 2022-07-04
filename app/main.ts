@@ -29,9 +29,13 @@ const playerControllers = [
   "Spain",
   "Sweden",
   "Turkey",
-].sort(() => Math.random() - 0.5).map((name) => new PlayerController(name, gameName));
+].sort(() => Math.random() - 0.5).map((name) =>
+  new PlayerController(name, gameName)
+);
 
-await playerControllers[Math.trunc(Math.random() * 8)].setupGame("TheRevolutionCampaign");
+await playerControllers[Math.trunc(Math.random() * 8)].setupGame(
+  "TheRevolutionCampaign",
+);
 
 if (playerControllers.length === 8) {
   for (const player of playerControllers) {

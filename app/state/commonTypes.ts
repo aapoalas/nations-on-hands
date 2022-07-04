@@ -12,8 +12,8 @@ export enum Month {
   September = 8,
   October = 9,
   November = 10,
-  December = 11
-};
+  December = 11,
+}
 
 export enum EconomicMonth {
   March = 2,
@@ -56,17 +56,17 @@ export enum PoliticalStep {
   BreakingAlliancesStep = 6,
   FreeStateDeclarationStep = 7,
   DeclarationOfCombinedMovementStep = 8,
-};
+}
 
 export enum ReinforcementStep {
   NavalReinforcementStep = 0,
   LandReinforcementStep = 1,
-};
+}
 
 export enum NavalStep {
   NavalMovementStep = 0,
   NavalCombatStep = 1,
-};
+}
 
 export enum LandStep {
   DepotCreationRemovalStep = 0,
@@ -75,7 +75,7 @@ export enum LandStep {
   LandCombatSte = 3,
   GuerillaStep = 4,
   ConquestStep = 5,
-};
+}
 
 export enum EconomicStep {
   VictoryPointsStep = 0,
@@ -89,11 +89,24 @@ export enum EconomicStep {
   NewPoliticalCombinationsStep = 8,
   LevyStep = 9,
   UMPControlStep = 10,
-};
+}
 
-export type PhaseStep = PoliticalStep | ReinforcementStep | NavalStep | LandStep | EconomicStep;
+export type PhaseStep =
+  | PoliticalStep
+  | ReinforcementStep
+  | NavalStep
+  | LandStep
+  | EconomicStep;
 
-export type PlayerCountryID = "fr" | "aus" | "pr" | "ru" | "swe" | "gb" | "spa" | "tur";
+export type PlayerCountryID =
+  | "fr"
+  | "aus"
+  | "pr"
+  | "ru"
+  | "swe"
+  | "gb"
+  | "spa"
+  | "tur";
 
 export interface SetupSteps extends GameDate {
   phase: TurnPhase.Setup;
@@ -147,7 +160,12 @@ export interface EconomicSteps extends GameDate {
   player: null;
 }
 
-export type IndividualSteps = SetupSteps | IndividualPoliticalSteps | ReinforcementSteps | NavalSteps | IndividualLandSteps;
+export type IndividualSteps =
+  | SetupSteps
+  | IndividualPoliticalSteps
+  | ReinforcementSteps
+  | NavalSteps
+  | IndividualLandSteps;
 export type JointSteps = JointPoliticalSteps | JointLandSteps | EconomicSteps;
 
 /**
@@ -196,7 +214,7 @@ export interface JointPhaseData {
   type: "joint";
   filter?: Partial<CommonState>[];
   order: null;
-  steps: (JointStepData | ParallelStepData)[]
+  steps: (JointStepData | ParallelStepData)[];
 }
 
 /**

@@ -5,7 +5,10 @@ import {
 } from "../country/actionTypes.ts";
 
 export const doRecruitmentPhasesActionType = "countries/doRecruitmentPhases";
-export type RecruitmentPhasesData = Record<PlayerCountryID, RecruitmentPhaseData>;
+export type RecruitmentPhasesData = Record<
+  PlayerCountryID,
+  RecruitmentPhaseData
+>;
 export interface DoRecruitmentPhasesAction {
   type: typeof doRecruitmentPhasesActionType;
   payload: RecruitmentPhasesData;
