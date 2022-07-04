@@ -1,4 +1,4 @@
-import { GameState } from "../state/state.ts";
+import { AdvanceStateAction, GameState } from "../state/state.ts";
 
 export interface BroadcastMessage<T> {
   type: string;
@@ -10,7 +10,7 @@ export interface TargetedMessage<T> extends BroadcastMessage<T> {
   target: string;
 }
 
-export interface PrivateMessage extends TargetedMessage<ArrayBuffer> {}
+export type PrivateMessage = TargetedMessage<ArrayBuffer>;
 
 export const joinMessageType = "player/join";
 export interface JoinMessage extends BroadcastMessage<null> {
@@ -28,7 +28,7 @@ export interface LeaveMessage extends BroadcastMessage<null> {
 }
 
 export const playerStepDataType = "player/stepData";
-export interface PlayerStepData extends BroadcastMessage<any> {
+export interface PlayerStepData extends BroadcastMessage<void> {
   type: typeof playerStepDataType;
 }
 
@@ -38,8 +38,14 @@ export interface InitializeMessage extends BroadcastMessage<GameState> {
 }
 
 export const stepForwardMessageType = "game/step";
-export interface StepForwardMessage extends BroadcastMessage<any> {
+export interface StepForwardMessage
+  extends BroadcastMessage<AdvanceStateAction> {
   type: typeof stepForwardMessageType;
+}
+
+export const gameStateHashMessageType = "game/hash";
+export interface GameStateHashMessage extends BroadcastMessage<string> {
+  type: typeof gameStateHashMessageType;
 }
 
 export type PlayerMessage =
@@ -47,6 +53,7 @@ export type PlayerMessage =
   | LeaveMessage
   | PlayerStepData
   | InitializeMessage
-  | StepForwardMessage;
+  | StepForwardMessage
+  | GameStateHashMessage;
 export type TargetedPlayerMessage = GreetMessage;
 export type GameMessage = PlayerMessage | TargetedPlayerMessage;

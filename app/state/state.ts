@@ -36,6 +36,7 @@ export const advanceStateActionCreator = (
 export const stateReducer = (state: GameState, action: AdvanceStateAction) => {
   let countries = state.countries;
   if (
+    false &&
     state.common.month in EconomicMonth &&
     state.common.phase === TurnPhase.Economic
   ) {
@@ -46,7 +47,7 @@ export const stateReducer = (state: GameState, action: AdvanceStateAction) => {
       countries,
       doEconomicPhasesActionCreator(action.payload as EconomicPhasesData),
     );
-  } else if (state.common.phase === TurnPhase.Reinforcement) {
+  } else if (false && state.common.phase === TurnPhase.Reinforcement) {
     countries = countriesReducer(
       countries,
       doRecruitmentPhasesActionCreator(action.payload as RecruitmentPhasesData),

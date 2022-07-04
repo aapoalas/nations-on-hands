@@ -8,7 +8,12 @@ export enum CorpsStatus {
 
 export type FactorType = "guards" | "infantry" | "cavalry" | "artillery";
 
-export type CorpsSize = Record<FactorType, number>;
+export interface CorpsSize {
+  artillery: number;
+  cavalry: number;
+  guard: number;
+  infantry: number;
+}
 
 export interface Factor {
   name: string;

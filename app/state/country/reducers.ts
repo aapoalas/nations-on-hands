@@ -88,7 +88,7 @@ export const countryReducer = (
         army,
       };
     }
-  } else if (action.type = doRecruitmentPhaseActionType) {
+  } else if (action.type === doRecruitmentPhaseActionType) {
     return {
       ...state,
       army: countryArmyReducer(

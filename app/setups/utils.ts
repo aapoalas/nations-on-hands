@@ -18,7 +18,7 @@ const getRomanNumeral = (number: number): string => {
   if (number <= 10) {
     return romanBaseNumerals[number as keyof typeof romanBaseNumerals];
   }
-  let value: string = "";
+  let value = "";
   const tens = Math.trunc(number / 10);
   for (let i = 0; i < tens; i++) {
     value += "X";
