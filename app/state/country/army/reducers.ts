@@ -31,7 +31,7 @@ const doRecruitmentPhase = (
       throw new TypeError("Invalid corps name, corps is inactive");
     }
     const composition = {
-      ...prevCorps.composition
+      ...prevCorps.composition,
     };
     const nextCorps: ActiveCorps = {
       composition,

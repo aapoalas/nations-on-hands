@@ -2,7 +2,12 @@ import { Month } from "../state/commonTypes.ts";
 import { GameState } from "../state/state.ts";
 import { createFactors, createReinforcement } from "./utils.ts";
 import { EIGHT_PLAYER_CAMPAIGN_ORDER } from "./baseGameOrder.ts";
-import { Commander, CommanderSeniority, Corps, CorpsStatus } from "../state/country/army/types.ts";
+import {
+  Commander,
+  CommanderSeniority,
+  Corps,
+  CorpsStatus,
+} from "../state/country/army/types.ts";
 
 const startDate: {
   month: Month;
@@ -685,7 +690,7 @@ export const getInitialState = (): GameState => ({
               tacticalMaximum: 1,
               seniority: CommanderSeniority.D,
             }],
-          ])
+          ]),
         },
         general: {
           victoryPoints: 0,
@@ -854,7 +859,7 @@ export const getInitialState = (): GameState => ({
               seniority: CommanderSeniority.D,
               cavalry: false,
             }],
-          ])
+          ]),
         },
         general: {
           victoryPoints: 0,
@@ -1042,7 +1047,7 @@ export const getInitialState = (): GameState => ({
               seniority: CommanderSeniority.C,
               cavalry: false,
             }],
-          ])
+          ]),
         },
         general: {
           victoryPoints: 0,
@@ -1428,7 +1433,7 @@ export const getInitialState = (): GameState => ({
               seniority: CommanderSeniority.D,
               cavalry: false,
             }],
-          ])
+          ]),
         },
         general: {
           victoryPoints: 0,
@@ -1614,7 +1619,7 @@ export const getInitialState = (): GameState => ({
               seniority: CommanderSeniority.C,
               cavalry: false,
             }],
-          ])
+          ]),
         },
         general: {
           victoryPoints: 0,
@@ -2161,7 +2166,7 @@ export const getInitialState = (): GameState => ({
               seniority: CommanderSeniority.D,
               cavalry: false,
             }],
-          ])
+          ]),
         },
         general: {
           victoryPoints: 0,

@@ -26,10 +26,12 @@ const newPlayerActionPromise = (
   let resolve: (value: AdvanceStateAction) => void;
   let reject: (err: Error) => void;
   // @ts-expect-error Not assigned registerPlayerAction
-  const promise: PlayerActionPromise = new Promise<AdvanceStateAction>((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
+  const promise: PlayerActionPromise = new Promise<AdvanceStateAction>(
+    (res, rej) => {
+      resolve = res;
+      reject = rej;
+    },
+  );
   promise.registerPlayerAction = (player: PlayerCountryID, data: unknown) => {
     if (!waitingList.has(player)) {
       reject(new Error("Invalid player ID"));
