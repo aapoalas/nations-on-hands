@@ -15,21 +15,22 @@ import { getNextPlayer } from "../state/selectors.ts";
 import { AdvanceStateAction, GameState, stateReducer } from "../state/state.ts";
 
 interface PlayerActionPromise extends Promise<AdvanceStateAction> {
-  registerPlayerAction: (player: PlayerCountryID, data: any) => void;
+  registerPlayerAction: (player: PlayerCountryID, data: unknown) => void;
 }
 
 const newPlayerActionPromise = (
   players: PlayerCountryID[],
 ): PlayerActionPromise => {
   const waitingList = new Set(players);
-  const dataMap = new Map<PlayerCountryID, any>();
-  let resolve;
-  let reject;
-  const promise: PlayerActionPromise = new Promise((res, rej) => {
+  const dataMap = new Map<PlayerCountryID, unknown>();
+  let resolve: (value: AdvanceStateAction) => void;
+  let reject: (err: Error) => void;
+  // @ts-expect-error Not assigned registerPlayerAction
+  const promise: PlayerActionPromise = new Promise<AdvanceStateAction>((res, rej) => {
     resolve = res;
     reject = rej;
   });
-  const registerPlayerAction = (player: PlayerCountryID, data: any) => {
+  promise.registerPlayerAction = (player: PlayerCountryID, data: unknown) => {
     if (!waitingList.has(player)) {
       reject(new Error("Invalid player ID"));
     } else if (dataMap.has(player)) {
@@ -53,7 +54,7 @@ class PlayerController {
   private stateHash = createHash("md5");
   private hash = "";
   private waitingList = new Set<string>();
-  private actionsPromise?: newPlayerActionPromise;
+  private actionsPromise?: PlayerActionPromise;
 
   constructor(playerName: string, gameName: string) {
     if (typeof playerName !== "string" || !playerName) {

@@ -4,8 +4,8 @@ import {
 } from "./actionTypes.ts";
 
 export interface CountryGeneral {
-  victoryPoints: number;
-  victoryCondition: number;
+  readonly victoryPoints: number;
+  readonly victoryCondition: number;
 }
 
 export const countryGeneralReducer = (

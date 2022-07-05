@@ -8,9 +8,9 @@ import {
 } from "./actionTypes.ts";
 
 export interface CountryFinances {
-  currency: string;
-  money: number;
-  manpower?: number;
+  readonly currency: string;
+  readonly money: number;
+  readonly manpower?: number;
 }
 
 const useMoney = (state: CountryFinances, payload: number): CountryFinances => {

@@ -18,6 +18,7 @@ const doRecruitmentPhase = (
       (recr) => recr.year > year || recr.month > month,
     ),
     corps: new Map(state.corps),
+    commanders: state.commanders,
   };
   const newCorps = newState.corps;
 
@@ -29,8 +30,11 @@ const doRecruitmentPhase = (
     if (prevCorps.status === 0) {
       throw new TypeError("Invalid corps name, corps is inactive");
     }
+    const composition = {
+      ...prevCorps.composition
+    };
     const nextCorps: ActiveCorps = {
-      composition: { ...(prevCorps as ActiveCorps | ReserveCorps).composition },
+      composition,
       size: (prevCorps as ActiveCorps | ReserveCorps).size, // Corps size never changes
       status: 2,
     };
@@ -40,7 +44,7 @@ const doRecruitmentPhase = (
       if (count + nextCorps.composition[type].length > nextCorps.size[type]) {
         throw new TypeError("Invalid placement, corps overflows");
       }
-      nextCorps.composition[type] = nextCorps.composition[type].concat(
+      composition[type] = composition[type].concat(
         ...Array.from({ length: count }, (_v, k) => ({
           name: "Foo",
           type,

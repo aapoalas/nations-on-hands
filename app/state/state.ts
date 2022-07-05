@@ -16,9 +16,9 @@ import {
 import { countriesReducer, CountriesState } from "./countries/reducers.ts";
 
 export interface GameState {
-  common: CommonState;
-  configuration: ConfigurationState;
-  countries: CountriesState;
+  readonly common: CommonState;
+  readonly configuration: ConfigurationState;
+  readonly countries: CountriesState;
 }
 
 const advanceStateActionType = "advanceState";

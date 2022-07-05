@@ -22,12 +22,12 @@ import { grantVictoryPointsActionCreator } from "./general/actionCreators.ts";
 import { CountryGeneral, countryGeneralReducer } from "./general/reducers.ts";
 
 export interface CountryState {
-  name: string;
-  identifier: string;
-  canStoreManpower?: boolean;
-  army: CountryArmy;
-  general: CountryGeneral;
-  finances: CountryFinances;
+  readonly name: string;
+  readonly identifier: string;
+  readonly canStoreManpower?: boolean;
+  readonly army: CountryArmy;
+  readonly general: CountryGeneral;
+  readonly finances: CountryFinances;
 }
 
 export const countryReducer = (

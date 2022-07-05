@@ -109,55 +109,55 @@ export type PlayerCountryID =
   | "tur";
 
 export interface SetupSteps extends GameDate {
-  phase: TurnPhase.Setup;
-  step: SetupStep;
-  player: PlayerCountryID;
+  readonly phase: TurnPhase.Setup;
+  readonly step: SetupStep;
+  readonly player: PlayerCountryID;
 }
 
 interface JointPoliticalSteps extends GameDate {
-  phase: TurnPhase.Political;
-  step: Exclude<PoliticalStep, PoliticalStep.MinorCountryControlStep>;
-  player: null;
+  readonly phase: TurnPhase.Political;
+  readonly step: Exclude<PoliticalStep, PoliticalStep.MinorCountryControlStep>;
+  readonly player: null;
 }
 
 interface IndividualPoliticalSteps extends GameDate {
-  phase: TurnPhase.Political;
-  step: PoliticalStep.MinorCountryControlStep;
-  player: PlayerCountryID;
+  readonly phase: TurnPhase.Political;
+  readonly step: PoliticalStep.MinorCountryControlStep;
+  readonly player: PlayerCountryID;
 }
 
 export type PoliticalSteps = IndividualPoliticalSteps | JointPoliticalSteps;
 
 export interface ReinforcementSteps extends GameDate {
-  phase: TurnPhase.Reinforcement;
-  step: ReinforcementStep;
-  player: PlayerCountryID;
+  readonly phase: TurnPhase.Reinforcement;
+  readonly step: ReinforcementStep;
+  readonly player: PlayerCountryID;
 }
 
 export interface NavalSteps extends GameDate {
-  phase: TurnPhase.Naval;
-  step: NavalStep;
-  player: PlayerCountryID;
+  readonly phase: TurnPhase.Naval;
+  readonly step: NavalStep;
+  readonly player: PlayerCountryID;
 }
 
 interface IndividualLandSteps extends GameDate {
-  phase: TurnPhase.Land;
-  step: Exclude<LandStep, LandStep.ConquestStep>;
-  player: PlayerCountryID;
+  readonly phase: TurnPhase.Land;
+  readonly step: Exclude<LandStep, LandStep.ConquestStep>;
+  readonly player: PlayerCountryID;
 }
 
 interface JointLandSteps extends GameDate {
-  phase: TurnPhase.Land;
-  step: LandStep.ConquestStep;
-  player: null;
+  readonly phase: TurnPhase.Land;
+  readonly step: LandStep.ConquestStep;
+  readonly player: null;
 }
 
 export type LandSteps = IndividualLandSteps | JointLandSteps;
 
 export interface EconomicSteps extends GameDate {
-  phase: TurnPhase.Economic;
-  step: EconomicStep;
-  player: null;
+  readonly phase: TurnPhase.Economic;
+  readonly step: EconomicStep;
+  readonly player: null;
 }
 
 export type IndividualSteps =
@@ -173,10 +173,10 @@ export type JointSteps = JointPoliticalSteps | JointLandSteps | EconomicSteps;
  * the step at the same time.
  */
 export interface JointStepData {
-  id: number;
-  name: string;
-  type: "joint";
-  order: null;
+  readonly id: number;
+  readonly name: string;
+  readonly type: "joint";
+  readonly order: null;
 }
 
 /**
@@ -184,10 +184,10 @@ export interface JointStepData {
  * step in order defined by the step itself.
  */
 export interface ParallelStepData {
-  id: number;
-  name: string;
-  type: "parallel";
-  order: PlayerCountryID[];
+  readonly id: number;
+  readonly name: string;
+  readonly type: "parallel";
+  readonly order: readonly PlayerCountryID[];
 }
 
 /**
@@ -196,10 +196,10 @@ export interface ParallelStepData {
  * players in order.
  */
 export interface SequentialStepData {
-  id: number;
-  name: string;
-  type: "sequential";
-  order: null;
+  readonly id: number;
+  readonly name: string;
+  readonly type: "sequential";
+  readonly order: null;
 }
 
 /**
@@ -209,12 +209,12 @@ export interface SequentialStepData {
  * play.
  */
 export interface JointPhaseData {
-  id: number;
-  name: string;
-  type: "joint";
-  filter?: Partial<CommonState>[];
-  order: null;
-  steps: (JointStepData | ParallelStepData)[];
+  readonly id: number;
+  readonly name: string;
+  readonly type: "joint";
+  readonly filter?: readonly Partial<CommonState>[];
+  readonly order: null;
+  readonly steps: readonly (JointStepData | ParallelStepData)[];
 }
 
 /**
@@ -222,16 +222,16 @@ export interface JointPhaseData {
  * determines the order of play.
  */
 export interface SequentialPhaseData {
-  id: number;
-  name: string;
-  type: "sequential";
-  filter?: Partial<CommonState>[];
-  order: PlayerCountryID[];
-  steps: (JointStepData | SequentialStepData)[];
+  readonly id: number;
+  readonly name: string;
+  readonly type: "sequential";
+  readonly filter?: readonly Partial<CommonState>[];
+  readonly order: PlayerCountryID[];
+  readonly steps: readonly (JointStepData | SequentialStepData)[];
 }
 
 export type PhaseData = JointPhaseData | SequentialPhaseData;
 
 export interface CommonConfiguration {
-  phaseData: PhaseData[];
+  readonly phaseData: readonly PhaseData[];
 }

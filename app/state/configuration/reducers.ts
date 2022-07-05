@@ -1,18 +1,18 @@
 import { PhaseData, PlayerCountryID } from "../commonTypes.ts";
 
 export interface PlayOrder {
-  land: PlayerCountryID[];
-  landReinf: PlayerCountryID[];
-  naval: PlayerCountryID[];
-  navalReinf: PlayerCountryID[];
-  setup: PlayerCountryID[];
+  readonly land: readonly PlayerCountryID[];
+  readonly landReinf: readonly PlayerCountryID[];
+  readonly naval: readonly PlayerCountryID[];
+  readonly navalReinf: readonly PlayerCountryID[];
+  readonly setup: readonly PlayerCountryID[];
 }
 
 export interface ConfigurationState {
-  common: {
-    phaseData: PhaseData[];
+  readonly common: {
+    readonly phaseData: PhaseData[];
   };
-  countrySpecificConfiguration?: Partial<
+  readonly countrySpecificConfiguration?: Partial<
     Record<
       PlayerCountryID,
       Partial<Omit<ConfigurationState, "countrySpecificConfiguration">>

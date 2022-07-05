@@ -2,12 +2,12 @@ import { Placements, Recruitment } from "./types.ts";
 
 export const doRecruitmentActionType = "country/army/doRecruitment";
 export interface DoRecruitmentAction {
-  type: typeof doRecruitmentActionType;
-  payload: Placements;
+  readonly type: typeof doRecruitmentActionType;
+  readonly payload: Placements;
 }
 
 export const recruitUnitsActionType = "country/army/recruitUnits";
 export interface RecruitUnitsAction {
-  type: typeof recruitUnitsActionType;
-  payload: Recruitment[];
+  readonly type: typeof recruitUnitsActionType;
+  readonly payload: readonly Recruitment[];
 }
