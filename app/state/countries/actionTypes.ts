@@ -10,13 +10,13 @@ export type RecruitmentPhasesData = Record<
   RecruitmentPhaseData
 >;
 export interface DoRecruitmentPhasesAction {
-  type: typeof doRecruitmentPhasesActionType;
-  payload: RecruitmentPhasesData;
+  readonly type: typeof doRecruitmentPhasesActionType;
+  readonly payload: RecruitmentPhasesData;
 }
 
 export const doEconomicPhasesActionType = "countries/doEconomicPhases";
 export type EconomicPhasesData = Record<PlayerCountryID, EconomicPhaseData>;
 export interface DoEconomicPhasesAction {
-  type: typeof doEconomicPhasesActionType;
-  payload: EconomicPhasesData;
+  readonly type: typeof doEconomicPhasesActionType;
+  readonly payload: EconomicPhasesData;
 }
