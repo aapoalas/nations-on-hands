@@ -6,14 +6,9 @@ export enum CorpsStatus {
   "Active" = 2,
 }
 
-export type FactorType = "guards" | "infantry" | "cavalry" | "artillery";
+export type FactorType = "guard" | "infantry" | "cavalry" | "artillery";
 
-export interface CorpsSize {
-  artillery: number;
-  cavalry: number;
-  guard: number;
-  infantry: number;
-}
+export type CorpsSize = Record<FactorType, number>;
 
 export interface Factor {
   name: string;

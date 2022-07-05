@@ -1,3 +1,6 @@
+import { ActiveCorps, FactorType } from "../app/state/country/army/types.ts";
+import { CountryState } from "../app/state/country/reducers.ts";
+
 type CombatResolutionLine = readonly [
   number,
   number,
@@ -572,12 +575,18 @@ export const getDefenderCombatResolutionEntry = (
 
 export interface CombatState {
   attackerChit: AttackerOperationName;
-  attackerFactors: number;
+  attackerCorps: Map<string, ActiveCorps>;
+  attackerCountryData: CountryState;
   attackerMorale: number;
+  attackerOriginalMorale: number;
+  attackerOriginalComposition: Record<FactorType, number>;
   attackingOverRiver: boolean;
   defenderChit: DefenderOperationName;
-  defenderFactors: number;
+  defenderCorps: Map<string, ActiveCorps>;
+  defenderCountryData: CountryState;
   defenderMorale: number;
+  defenderOriginalMorale: number;
+  defenderOriginalComposition: Record<FactorType, number>;
   operationalPossibilityEntry: OperationalPossibilityEntry;
   outflanked: boolean;
   terrain: TerrainModifier;
